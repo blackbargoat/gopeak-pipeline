@@ -6,3 +6,5 @@ public/jobs/
 public/fonts/AppleColorEmoji-Linux.ttf
 .env
 .DS_Store
+refs/*.mp4
+public/refaudio/

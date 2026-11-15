@@ -1,6 +1,7 @@
 import React from 'react';
 import {Composition} from 'remotion';
 import {Clip, type ClipProps} from './Clip';
+import {Remake, type RemakeProps} from './Remake';
 import {FPS, H, W} from './safe';
 
 const preview: ClipProps = {
@@ -18,7 +19,28 @@ const preview: ClipProps = {
 	ctaSec: 2.5,
 };
 
+const remakePreview: RemakeProps = {
+	face: 'jobs/preview/face.mp4',
+	faceLoopSec: 6,
+	durationSec: 8,
+	audio: 'refaudio/03.m4a',
+	texts: [{text: 'Be 6ft with long torso?\n\nOR\n\nBe 5’10 with short torso?', y: 643, size: 62, to: 4.47}],
+	app: {image: 'app/result.png', atSec: 4.47, fadeSec: 0, header: 'Check your result ⬇️', headerY: 330, y: 1005, width: 640},
+	appAspect: 2340 / 1320,
+};
+
 export const Root: React.FC = () => (
+	<>
+	<Composition
+		id="Remake"
+		component={Remake}
+		width={W}
+		height={H}
+		fps={FPS}
+		durationInFrames={FPS * 8}
+		defaultProps={remakePreview}
+		calculateMetadata={({props}) => ({durationInFrames: Math.max(1, Math.round(props.durationSec * FPS))})}
+	/>
 	<Composition
 		id="Clip"
 		component={Clip}
@@ -29,4 +51,5 @@ export const Root: React.FC = () => (
 		defaultProps={preview}
 		calculateMetadata={({props}) => ({durationInFrames: Math.max(1, Math.round(props.durationSec * FPS))})}
 	/>
+	</>
 );
