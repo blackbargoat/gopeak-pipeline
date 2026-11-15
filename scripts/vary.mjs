@@ -27,7 +27,6 @@ export function footage(i, opts = DEFAULT_VARY) {
 
 // Small caption changes that keep the meaning: arrow emoji, the comment line, punctuation, capitalization.
 const SWAPS = [
-	[/⬇️/g, '👇'],
 	[/Comment below/g, 'Comment yours'],
 	[/Comment your height/g, 'Drop your height'],
 	[/\?(\s|$)/, '??$1'],
@@ -48,7 +47,8 @@ export function caption(text, i, opts = DEFAULT_VARY, alts = []) {
 	if (out === text) {
 		// fallback: toggle the period at the end of the first line, then the case of its first letter
 		const [first, ...rest] = text.split('\n');
-		const f = /[.!]$/.test(first) ? first.slice(0, -1) : i % 2 ? first + '.' : first[0] === first[0].toUpperCase() ? first[0].toLowerCase() + first.slice(1) : first[0].toUpperCase() + first.slice(1);
+		// only flip the case of the first letter: no stray punctuation mid-sentence
+		const f = first[0] === first[0].toUpperCase() ? first[0].toLowerCase() + first.slice(1) : first[0].toUpperCase() + first.slice(1);
 		out = [f, ...rest].join('\n');
 	}
 	return out;

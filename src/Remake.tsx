@@ -31,7 +31,7 @@ export type RemakeProps = {
 	appAspect: number; // image height / width
 	// Per-use variation so each trial reel of the same clip is its own file (mirror, crop, speed, grade).
 	// App screen recordings shown as a phone-sized card over the dimmed face (screen payoff format).
-	screens?: {src: string; from: number; to: number; header?: string | null; headerY?: number; headerW?: number; width?: number; y?: number}[];
+	screens?: {src: string; from: number; to: number; header?: string | null; headerY?: number; headerW?: number; size?: number; width?: number; y?: number}[];
 	mirror?: boolean;
 	zoom?: number; // 1.00-1.08
 	rate?: number; // 0.96-1.04
@@ -61,16 +61,17 @@ const sizeForWidth = (text: string, w: number) => {
 	return w / (per100 / 100 + STROKE);
 };
 
-const NativeText: React.FC<{text: string; y: number; w: number; linePx: number; opacity?: number}> = ({
+const NativeText: React.FC<{text: string; y: number; w: number; linePx: number; opacity?: number; size?: number}> = ({
 	text,
 	y,
 	w,
 	linePx,
 	opacity = 1,
+	size,
 }) => {
 	const fontsReady = useFontsReady();
 	if (!fontsReady) return null;
-	const s = sizeForWidth(text, w);
+	const s = size ?? sizeForWidth(text, w);
 	return (
 		<div
 			style={{
@@ -131,8 +132,6 @@ export const Remake: React.FC<RemakeProps> = (p) => {
 				const cy = sc.y ?? 1040;
 				const from = Math.round(sc.from * fps);
 				const dur = Math.max(1, Math.round((sc.to - sc.from) * fps));
-				const local = frame - from;
-				const s = spring({frame: local, fps, config: {damping: 15, stiffness: 200}});
 				return (
 					<Sequence key={i} from={from} durationInFrames={dur} layout="none">
 						<AbsoluteFill style={{background: 'rgba(0,0,0,0.5)'}} />
@@ -146,12 +145,11 @@ export const Remake: React.FC<RemakeProps> = (p) => {
 								borderRadius: 54,
 								overflow: 'hidden',
 								boxShadow: '0 0 0 6px #111, 0 30px 60px rgba(0,0,0,0.6)',
-								transform: `translateY(${(1 - s) * 80}px) scale(${0.92 + 0.08 * s})`,
 							}}
 						>
 							<OffthreadVideo src={staticFile(sc.src)} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} />
 						</div>
-						{sc.header ? <NativeText text={sc.header} y={sc.headerY ?? 330} w={sc.headerW ?? 600} linePx={66} /> : null}
+						{sc.header ? <NativeText text={sc.header} y={sc.headerY ?? 330} w={sc.headerW ?? 600} linePx={78} size={sc.size ?? 64} /> : null}
 					</Sequence>
 				);
 			})}

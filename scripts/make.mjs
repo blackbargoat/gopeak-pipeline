@@ -2,7 +2,7 @@
 // Raw clip -> silence cut -> 9:16 -> captions -> up to 4 variants (2 per account).
 //
 //   node scripts/make.mjs input/clip.mov --hooks "hook one|hook two|hook three|hook four" \
-//        --cta "Free height prediction 👉 link in bio"
+//        --cta "your full prediction in the app, link in bio"
 //
 // Optional sidecar: input/clip.json with {hooks, cta, accounts, perAccount, musicVolume}.
 // Works the same on macOS and Windows (needs Node 18+ and ffmpeg on PATH).
@@ -26,12 +26,12 @@ export const DEFAULTS = {
 	perAccount: 2, // => max 4 uses of one clip, 2 per account
 	musicVolume: 0.1,
 	hooks: [
-		'POV: an app guessed my final height 😳📏',
-		'I asked an app how tall I’ll be… 💀',
-		'Doctors hate this height trick 🤫',
-		'How tall will you actually be? 📈',
+		'POV: an app guessed my final height',
+		'I asked an app how tall I’ll be…',
+		'Doctors hate this height trick',
+		'How tall will you actually be?',
 	],
-	cta: 'Free height prediction 👉 link in bio',
+	cta: 'your full prediction in the app, link in bio',
 	silenceDb: -35,
 	minSilenceSec: 0.35,
 	padSec: 0.12,

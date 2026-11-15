@@ -28,7 +28,7 @@ export type ClipProps = {
 	musicStartSec: number;
 	zoom: number; // small per-variant crop difference so reposts aren't pixel-identical
 	accent: string; // highlight color for the active caption word
-	cta: string | null; // end card text, e.g. "Free height prediction 👉 link in bio"
+	cta: string | null; // end card text, e.g. "your full prediction in the app, link in bio"
 	ctaSec: number;
 };
 

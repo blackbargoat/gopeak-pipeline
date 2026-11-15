@@ -37,7 +37,7 @@
         "image": "app/result.png",
         "atSec": 4.47,
         "fadeSec": 0,
-        "header": "Take the quiz and see what\nyour build says⬇️",
+        "header": "Take the quiz and see what\nyour build says",
         "headerY": 326,
         "y": 1005,
         "width": 640,
@@ -65,7 +65,7 @@
         "image": "app/result.png",
         "atSec": 7.03,
         "fadeSec": 0,
-        "header": "Check your result ⬇️",
+        "header": "Check your result",
         "headerY": 330,
         "y": 1010,
         "width": 640,
@@ -93,7 +93,7 @@
         "image": "app/result.png",
         "atSec": 11.0,
         "fadeSec": 0,
-        "header": "Height estimate app ⬇️",
+        "header": "Height estimate app",
         "headerY": 332,
         "y": 1000,
         "width": 600,
@@ -110,7 +110,7 @@
       "audio": "refaudio/07.m4a",
       "texts": [
         {
-          "text": "my top 5 horror movies:\n\n🥇 - stop growing at 15\n🥈 - stop growing at 15\n🥉 -stop growing at 15\n4 - stop growing at 15\n5 - stop growing at 15",
+          "text": "my top 5 horror movies:\n\n1 - stop growing at 15\n2 - stop growing at 15\n3 -stop growing at 15\n4 - stop growing at 15\n5 - stop growing at 15",
           "y": 992,
           "to": 8.2,
           "w": 728,
@@ -121,7 +121,7 @@
         "image": "app/result.png",
         "atSec": 8.2,
         "fadeSec": 0,
-        "header": "where do YOU rank ⬇️⬇️⬇️",
+        "header": "where do YOU rank",
         "headerY": 568,
         "y": 1010,
         "width": 560,
@@ -149,7 +149,7 @@
         "image": "app/result.png",
         "atSec": 3.8,
         "fadeSec": 3.0,
-        "header": "what about 18? ⬇️",
+        "header": "what about 18?",
         "headerY": 298,
         "y": 1020,
         "width": 640,
@@ -194,7 +194,7 @@
         "image": "app/result.png",
         "atSec": 9.0,
         "fadeSec": 0,
-        "header": "Are you cooked ⬇️?",
+        "header": "Are you cooked?",
         "headerY": 335,
         "y": 1010,
         "width": 620,
@@ -222,7 +222,7 @@
         "image": "app/result.png",
         "atSec": 5.3,
         "fadeSec": 0,
-        "header": "are you cooked? ⬇️",
+        "header": "are you cooked?",
         "headerY": 342,
         "y": 1020,
         "width": 640,
@@ -265,7 +265,7 @@
       "audio": "refaudio/09.m4a",
       "texts": [
         {
-          "text": "Flex your height with your age.\n\n🟢 = Tall\n🔵 = Potential\n🔴 = Cooked\n\nComment below",
+          "text": "Flex your height with your age.\n\n🟢 = Tall\n = Potential\n = Cooked\n\nComment below",
           "y": 580,
           "w": 900,
           "linePx": 80
@@ -282,7 +282,7 @@
       "audio": "refaudio/15.m4a",
       "texts": [
         {
-          "text": "Flex your height with your age.\n🟢 = Tall\n🔵 = Average\n🔴 = Cooked\n\nComment below",
+          "text": "Flex your height with your age.\n🟢 = Tall\n = Average\n = Cooked\n\nComment below",
           "y": 540,
           "w": 900,
           "linePx": 80
@@ -299,7 +299,7 @@
       "audio": "refaudio/01.m4a",
       "texts": [
         {
-          "text": "Flex your height with your age\n⚫ = Alien\n🟢 = Tall\n🔵 = Potential\n🔴 = Cooked\n⚪ = Growth Is Over",
+          "text": "Flex your height with your age\n⚫ = Alien\n🟢 = Tall\n = Potential\n = Cooked\n⚪ = Growth Is Over",
           "y": 540,
           "w": 900,
           "linePx": 80
@@ -316,7 +316,7 @@
       "audio": "refaudio/06.m4a",
       "texts": [
         {
-          "text": "Flex your height with your age.\n\n🟢 = Tall\n🔴 = Cooked\n🔵 = Potential\n\nComment your height",
+          "text": "Flex your height with your age.\n\n🟢 = Tall\n = Cooked\n = Potential\n\nComment your height",
           "y": 580,
           "w": 900,
           "linePx": 80
@@ -333,7 +333,7 @@
       "audio": "refaudio/09.m4a",
       "texts": [
         {
-          "text": "Flex your height with your age.\n\n🟢 = Tall\n🔵 = Potential\n🔴 = Cooked\n\nComment below",
+          "text": "Flex your height with your age.\n\n🟢 = Tall\n = Potential\n = Cooked\n\nComment below",
           "y": 560.0,
           "w": 900,
           "linePx": 80
@@ -344,7 +344,7 @@
         "atSec": 6.0,
         "fadeSec": 0,
         "pop": true,
-        "header": "comment your height\nfor a prediction 👇",
+        "header": "comment your height\nfor a prediction",
         "headerY": 1447,
         "headerW": 600,
         "headerLinePx": 70,
@@ -361,7 +361,7 @@
       "audio": "refaudio/15.m4a",
       "texts": [
         {
-          "text": "Flex your height with your age.\n🟢 = Tall\n🔵 = Average\n🔴 = Cooked\n\nComment below",
+          "text": "Flex your height with your age.\n🟢 = Tall\n = Average\n = Cooked\n\nComment below",
           "y": 520.0,
           "w": 900,
           "linePx": 80
@@ -372,7 +372,7 @@
         "atSec": 6.0,
         "fadeSec": 0,
         "pop": true,
-        "header": "comment your height\nfor a prediction 👇",
+        "header": "comment your height\nfor a prediction",
         "headerY": 1447,
         "headerW": 600,
         "headerLinePx": 70,
@@ -389,7 +389,7 @@
       "audio": "refaudio/01.m4a",
       "texts": [
         {
-          "text": "Flex your height with your age\n⚫ = Alien\n🟢 = Tall\n🔵 = Potential\n🔴 = Cooked\n⚪ = Growth Is Over",
+          "text": "Flex your height with your age\n⚫ = Alien\n🟢 = Tall\n = Potential\n = Cooked\n⚪ = Growth Is Over",
           "y": 520.0,
           "w": 900,
           "linePx": 80
@@ -400,7 +400,7 @@
         "atSec": 6.0,
         "fadeSec": 0,
         "pop": true,
-        "header": "comment your height\nfor a prediction 👇",
+        "header": "comment your height\nfor a prediction",
         "headerY": 1447,
         "headerW": 600,
         "headerLinePx": 70,
@@ -417,7 +417,7 @@
       "audio": "refaudio/06.m4a",
       "texts": [
         {
-          "text": "Flex your height with your age.\n\n🟢 = Tall\n🔴 = Cooked\n🔵 = Potential\n\nComment your height",
+          "text": "Flex your height with your age.\n\n🟢 = Tall\n = Cooked\n = Potential\n\nComment your height",
           "y": 560.0,
           "w": 900,
           "linePx": 80
@@ -428,7 +428,7 @@
         "atSec": 6.0,
         "fadeSec": 0,
         "pop": true,
-        "header": "comment your height\nfor a prediction 👇",
+        "header": "comment your height\nfor a prediction",
         "headerY": 1447,
         "headerW": 600,
         "headerLinePx": 70,
@@ -455,7 +455,7 @@
         "atSec": 8.63,
         "fadeSec": 0,
         "pop": true,
-        "header": "comment your height\nfor a prediction 👇",
+        "header": "comment your height\nfor a prediction",
         "headerY": 1447,
         "headerW": 600,
         "headerLinePx": 70,
@@ -483,7 +483,7 @@
         "atSec": 6.26,
         "fadeSec": 0,
         "pop": true,
-        "header": "comment your height\nfor a prediction 👇",
+        "header": "comment your height\nfor a prediction",
         "headerY": 1447,
         "headerW": 600,
         "headerLinePx": 70,
@@ -514,25 +514,22 @@
           "src": "app/capture/ob_parents_t.mp4",
           "from": 3.2,
           "to": 5.0,
-          "header": "put in your parents’ height 👇",
-          "headerY": 330,
-          "headerW": 620
+          "header": "put in your parents’ height",
+          "headerY": 330
         },
         {
           "src": "app/capture/ob_loading_t.mp4",
           "from": 5.0,
           "to": 7.0,
           "header": "wait for it...",
-          "headerY": 330,
-          "headerW": 360
+          "headerY": 330
         },
         {
           "src": "app/capture/home_t.mp4",
           "from": 7.0,
           "to": 10.0,
-          "header": "comment your height\nfor a prediction 👇",
-          "headerY": 320,
-          "headerW": 600
+          "header": "comment your height\nfor a prediction",
+          "headerY": 300
         }
       ]
     },
@@ -545,7 +542,7 @@
       "audio": "refaudio/09.m4a",
       "texts": [
         {
-          "text": "your parents’ height decides\nmore than you think 😳",
+          "text": "your parents’ height decides\nmore than you think",
           "y": 950,
           "w": 880,
           "linePx": 88,
@@ -558,25 +555,22 @@
           "src": "app/capture/ob_age_t.mp4",
           "from": 3.0,
           "to": 4.6,
-          "header": "age 👇",
-          "headerY": 330,
-          "headerW": 200
+          "header": "age",
+          "headerY": 330
         },
         {
           "src": "app/capture/ob_parents_t.mp4",
           "from": 4.6,
           "to": 6.2,
-          "header": "parents 👇",
-          "headerY": 330,
-          "headerW": 300
+          "header": "parents",
+          "headerY": 330
         },
         {
           "src": "app/capture/home_t.mp4",
           "from": 6.2,
           "to": 9.5,
-          "header": "comment your height\nfor a prediction 👇",
-          "headerY": 320,
-          "headerW": 600
+          "header": "comment your height\nfor a prediction",
+          "headerY": 300
         }
       ]
     }
