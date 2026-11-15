@@ -1,5 +1,5 @@
 import React from 'react';
-import {AbsoluteFill, Audio, Img, interpolate, Loop, OffthreadVideo, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AbsoluteFill, Audio, Img, interpolate, Loop, OffthreadVideo, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {measureText} from '@remotion/layout-utils';
 import {CLASSIC_FONT, CLASSIC_STACK, loadFonts, useFontsReady} from './fonts';
 import {RichText} from './RichText';
@@ -30,6 +30,8 @@ export type RemakeProps = {
 	app: RemakeApp | null;
 	appAspect: number; // image height / width
 	// Per-use variation so each trial reel of the same clip is its own file (mirror, crop, speed, grade).
+	// App screen recordings shown as a phone-sized card over the dimmed face (screen payoff format).
+	screens?: {src: string; from: number; to: number; header?: string | null; headerY?: number; headerW?: number; width?: number; y?: number}[];
 	mirror?: boolean;
 	zoom?: number; // 1.00-1.08
 	rate?: number; // 0.96-1.04
@@ -123,6 +125,36 @@ export const Remake: React.FC<RemakeProps> = (p) => {
 				<OffthreadVideo src={staticFile(p.face)} muted playbackRate={rate} style={faceStyle} />
 			</Loop>
 			<Audio src={staticFile(p.audio)} />
+			{(p.screens ?? []).map((sc, i) => {
+				const w = sc.width ?? 560;
+				const h = (w * 2868) / 1320;
+				const cy = sc.y ?? 1040;
+				const from = Math.round(sc.from * fps);
+				const dur = Math.max(1, Math.round((sc.to - sc.from) * fps));
+				const local = frame - from;
+				const s = spring({frame: local, fps, config: {damping: 15, stiffness: 200}});
+				return (
+					<Sequence key={i} from={from} durationInFrames={dur} layout="none">
+						<AbsoluteFill style={{background: 'rgba(0,0,0,0.5)'}} />
+						<div
+							style={{
+								position: 'absolute',
+								left: (1080 - w) / 2,
+								top: cy - h / 2,
+								width: w,
+								height: h,
+								borderRadius: 54,
+								overflow: 'hidden',
+								boxShadow: '0 0 0 6px #111, 0 30px 60px rgba(0,0,0,0.6)',
+								transform: `translateY(${(1 - s) * 80}px) scale(${0.92 + 0.08 * s})`,
+							}}
+						>
+							<OffthreadVideo src={staticFile(sc.src)} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+						</div>
+						{sc.header ? <NativeText text={sc.header} y={sc.headerY ?? 330} w={sc.headerW ?? 600} linePx={66} /> : null}
+					</Sequence>
+				);
+			})}
 			{p.texts.map((x, i) => {
 				const visible = t >= (x.from ?? 0) && t < (x.to ?? Infinity);
 				return visible ? <NativeText key={i} text={x.text} y={x.y} w={x.w} linePx={x.linePx} /> : null;

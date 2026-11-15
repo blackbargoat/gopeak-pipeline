@@ -340,16 +340,16 @@
         }
       ],
       "app": {
-        "image": "app/result.png",
+        "image": "app/home_peek.png",
         "atSec": 6.0,
         "fadeSec": 0,
         "pop": true,
         "header": "comment your height\nfor a prediction 👇",
-        "headerY": 1564,
+        "headerY": 1447,
         "headerW": 600,
         "headerLinePx": 70,
-        "y": 1180,
-        "width": 320
+        "y": 1130,
+        "width": 380
       }
     },
     {
@@ -368,16 +368,16 @@
         }
       ],
       "app": {
-        "image": "app/result.png",
+        "image": "app/home_peek.png",
         "atSec": 6.0,
         "fadeSec": 0,
         "pop": true,
         "header": "comment your height\nfor a prediction 👇",
-        "headerY": 1564,
+        "headerY": 1447,
         "headerW": 600,
         "headerLinePx": 70,
-        "y": 1180,
-        "width": 320
+        "y": 1130,
+        "width": 380
       }
     },
     {
@@ -396,16 +396,16 @@
         }
       ],
       "app": {
-        "image": "app/result.png",
+        "image": "app/home_peek.png",
         "atSec": 6.0,
         "fadeSec": 0,
         "pop": true,
         "header": "comment your height\nfor a prediction 👇",
-        "headerY": 1564,
+        "headerY": 1447,
         "headerW": 600,
         "headerLinePx": 70,
-        "y": 1180,
-        "width": 320
+        "y": 1130,
+        "width": 380
       }
     },
     {
@@ -424,16 +424,16 @@
         }
       ],
       "app": {
-        "image": "app/result.png",
+        "image": "app/home_peek.png",
         "atSec": 6.0,
         "fadeSec": 0,
         "pop": true,
         "header": "comment your height\nfor a prediction 👇",
-        "headerY": 1564,
+        "headerY": 1447,
         "headerW": 600,
         "headerLinePx": 70,
-        "y": 1180,
-        "width": 320
+        "y": 1130,
+        "width": 380
       }
     },
     {
@@ -451,16 +451,16 @@
         }
       ],
       "app": {
-        "image": "app/result.png",
+        "image": "app/home_peek.png",
         "atSec": 8.63,
         "fadeSec": 0,
         "pop": true,
         "header": "comment your height\nfor a prediction 👇",
-        "headerY": 1564,
+        "headerY": 1447,
         "headerW": 600,
         "headerLinePx": 70,
-        "y": 1180,
-        "width": 320
+        "y": 1130,
+        "width": 380
       },
       "format": "bait_peek"
     },
@@ -479,46 +479,106 @@
         }
       ],
       "app": {
-        "image": "app/result.png",
+        "image": "app/home_peek.png",
         "atSec": 6.26,
         "fadeSec": 0,
         "pop": true,
         "header": "comment your height\nfor a prediction 👇",
-        "headerY": 1564,
+        "headerY": 1447,
         "headerW": 600,
         "headerLinePx": 70,
-        "y": 1180,
-        "width": 320
+        "y": 1130,
+        "width": 380
       },
       "format": "bait_peek"
     },
     {
-      "id": "p10",
-      "ref": "bledarrrrg/7658798292490407182 + app peek",
-      "views": 526900,
-      "durationSec": 12.0,
-      "audio": "refaudio/10.m4a",
+      "id": "s1",
+      "ref": "GoPeak screen payoff (GoTall 'final height' + app)",
+      "views": 0,
+      "format": "screen_payoff",
+      "durationSec": 10.0,
+      "audio": "refaudio/15.m4a",
       "texts": [
         {
-          "text": "If you are:\n\n5’4 at 14\n5’6 at 14\n5’8 at 14\n\nYoU WILL be:\n\n6’0 at 18\n6’3 at 18\n5’8 at 18",
-          "y": 896.0,
-          "w": 554,
-          "linePx": 112
+          "text": "If you’re 5’6 at 14,\nhere’s how tall you’ll be...",
+          "y": 950,
+          "w": 840,
+          "linePx": 88,
+          "to": 3.2
         }
       ],
-      "app": {
-        "image": "app/result.png",
-        "atSec": 10.0,
-        "fadeSec": 0,
-        "pop": true,
-        "header": "comment your height\nfor a prediction 👇",
-        "headerY": 1580,
-        "headerW": 600,
-        "headerLinePx": 70,
-        "y": 1299,
-        "width": 300
-      },
-      "format": "bait_peek"
+      "app": null,
+      "screens": [
+        {
+          "src": "app/capture/ob_parents_t.mp4",
+          "from": 3.2,
+          "to": 5.0,
+          "header": "put in your parents’ height 👇",
+          "headerY": 330,
+          "headerW": 620
+        },
+        {
+          "src": "app/capture/ob_loading_t.mp4",
+          "from": 5.0,
+          "to": 7.0,
+          "header": "wait for it...",
+          "headerY": 330,
+          "headerW": 360
+        },
+        {
+          "src": "app/capture/home_t.mp4",
+          "from": 7.0,
+          "to": 10.0,
+          "header": "comment your height\nfor a prediction 👇",
+          "headerY": 320,
+          "headerW": 600
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "ref": "GoPeak screen payoff (parents myth + app)",
+      "views": 0,
+      "format": "screen_payoff",
+      "durationSec": 9.5,
+      "audio": "refaudio/09.m4a",
+      "texts": [
+        {
+          "text": "your parents’ height decides\nmore than you think 😳",
+          "y": 950,
+          "w": 880,
+          "linePx": 88,
+          "to": 3.0
+        }
+      ],
+      "app": null,
+      "screens": [
+        {
+          "src": "app/capture/ob_age_t.mp4",
+          "from": 3.0,
+          "to": 4.6,
+          "header": "age 👇",
+          "headerY": 330,
+          "headerW": 200
+        },
+        {
+          "src": "app/capture/ob_parents_t.mp4",
+          "from": 4.6,
+          "to": 6.2,
+          "header": "parents 👇",
+          "headerY": 330,
+          "headerW": 300
+        },
+        {
+          "src": "app/capture/home_t.mp4",
+          "from": 6.2,
+          "to": 9.5,
+          "header": "comment your height\nfor a prediction 👇",
+          "headerY": 320,
+          "headerW": 600
+        }
+      ]
     }
   ],
   "_mix": {

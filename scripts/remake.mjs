@@ -17,7 +17,10 @@ import {audio, caption, footage} from './vary.mjs';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PUBLIC = path.join(ROOT, 'public');
 const ACCOUNTS = ['maverick.pranks', 'mav.tallteen'];
-const ASPECT = {'app/result.png': 2340 / 1320, 'app/ring.png': 1340 / 1320};
+const aspectOf = (img) => {
+	const [w, h] = execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'stream=width,height', '-of', 'csv=p=0', path.join(PUBLIC, img)]).toString().trim().split(',').map(Number);
+	return h / w;
+};
 
 const log = (...a) => console.log('›', ...a);
 const duration = (f) =>
@@ -144,7 +147,8 @@ async function main() {
 				audio: audio(t, i, audioPool, CFG.vary),
 				texts,
 				app: t.app,
-				appAspect: t.app ? ASPECT[t.app.image] : 1,
+				screens: t.screens || [],
+				appAspect: t.app ? aspectOf(t.app.image) : 1,
 				...footage(i, CFG.vary),
 			};
 			const composition = await selectComposition({serveUrl, id: 'Remake', inputProps});
