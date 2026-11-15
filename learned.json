@@ -1,0 +1,41 @@
+{
+  "mix": {
+    "comment_bait": null,
+    "bait_peek": null,
+    "app_reveal": null,
+    "text_remake": null
+  },
+  "stats": {
+    "comment_bait": {
+      "posts": 13,
+      "weight": 6.5,
+      "medianViews": 4228,
+      "commentsPer1k": 49.3,
+      "score": 14653.045704693906
+    },
+    "bait_peek": {
+      "posts": 0,
+      "weight": 0,
+      "medianViews": 0,
+      "commentsPer1k": 0,
+      "score": null
+    },
+    "app_reveal": {
+      "posts": 17,
+      "weight": 8.5,
+      "medianViews": 2654,
+      "commentsPer1k": 9.4,
+      "score": 3905.2412523020257
+    },
+    "text_remake": {
+      "posts": 3,
+      "weight": 1.5,
+      "medianViews": 1818,
+      "commentsPer1k": 1.7,
+      "score": null
+    }
+  },
+  "templates": {},
+  "basis": "33 videos (0 matched exactly, rest by caption)",
+  "updatedAt": "2026-11-15T16:22:43.858Z"
+}

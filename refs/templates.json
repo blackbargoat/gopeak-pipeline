@@ -323,12 +323,209 @@
         }
       ],
       "app": null
+    },
+    {
+      "id": "pf1",
+      "ref": "own/mav (IG winner) + app peek",
+      "views": 158676,
+      "format": "bait_peek",
+      "durationSec": 8.0,
+      "audio": "refaudio/09.m4a",
+      "texts": [
+        {
+          "text": "Flex your height with your age.\n\n🟢 = Tall\n🔵 = Potential\n🔴 = Cooked\n\nComment below",
+          "y": 560.0,
+          "w": 900,
+          "linePx": 80
+        }
+      ],
+      "app": {
+        "image": "app/result.png",
+        "atSec": 6.0,
+        "fadeSec": 0,
+        "pop": true,
+        "header": "comment your height\nfor a prediction 👇",
+        "headerY": 1564,
+        "headerW": 600,
+        "headerLinePx": 70,
+        "y": 1180,
+        "width": 320
+      }
+    },
+    {
+      "id": "pf2",
+      "ref": "own/mav (IG winner) + app peek",
+      "views": 154609,
+      "format": "bait_peek",
+      "durationSec": 8.0,
+      "audio": "refaudio/15.m4a",
+      "texts": [
+        {
+          "text": "Flex your height with your age.\n🟢 = Tall\n🔵 = Average\n🔴 = Cooked\n\nComment below",
+          "y": 520.0,
+          "w": 900,
+          "linePx": 80
+        }
+      ],
+      "app": {
+        "image": "app/result.png",
+        "atSec": 6.0,
+        "fadeSec": 0,
+        "pop": true,
+        "header": "comment your height\nfor a prediction 👇",
+        "headerY": 1564,
+        "headerW": 600,
+        "headerLinePx": 70,
+        "y": 1180,
+        "width": 320
+      }
+    },
+    {
+      "id": "pf3",
+      "ref": "own/mav (IG winner) + app peek",
+      "views": 217684,
+      "format": "bait_peek",
+      "durationSec": 8.0,
+      "audio": "refaudio/01.m4a",
+      "texts": [
+        {
+          "text": "Flex your height with your age\n⚫ = Alien\n🟢 = Tall\n🔵 = Potential\n🔴 = Cooked\n⚪ = Growth Is Over",
+          "y": 520.0,
+          "w": 900,
+          "linePx": 80
+        }
+      ],
+      "app": {
+        "image": "app/result.png",
+        "atSec": 6.0,
+        "fadeSec": 0,
+        "pop": true,
+        "header": "comment your height\nfor a prediction 👇",
+        "headerY": 1564,
+        "headerW": 600,
+        "headerLinePx": 70,
+        "y": 1180,
+        "width": 320
+      }
+    },
+    {
+      "id": "pf4",
+      "ref": "own/mav (IG winner) + app peek",
+      "views": 73883,
+      "format": "bait_peek",
+      "durationSec": 8.0,
+      "audio": "refaudio/06.m4a",
+      "texts": [
+        {
+          "text": "Flex your height with your age.\n\n🟢 = Tall\n🔴 = Cooked\n🔵 = Potential\n\nComment your height",
+          "y": 560.0,
+          "w": 900,
+          "linePx": 80
+        }
+      ],
+      "app": {
+        "image": "app/result.png",
+        "atSec": 6.0,
+        "fadeSec": 0,
+        "pop": true,
+        "header": "comment your height\nfor a prediction 👇",
+        "headerY": 1564,
+        "headerW": 600,
+        "headerLinePx": 70,
+        "y": 1180,
+        "width": 320
+      }
+    },
+    {
+      "id": "p08",
+      "ref": "mansuhn.gotall/7658023824717335839 + app peek",
+      "views": 627100,
+      "durationSec": 10.63,
+      "audio": "refaudio/08.m4a",
+      "texts": [
+        {
+          "text": "if you’re 12:\n\nshort: 140cm - 144cm\naverage: 147cm - 152cm\ntall: 152cm - 157cm",
+          "y": 502.5,
+          "w": 803,
+          "linePx": 89
+        }
+      ],
+      "app": {
+        "image": "app/result.png",
+        "atSec": 8.63,
+        "fadeSec": 0,
+        "pop": true,
+        "header": "comment your height\nfor a prediction 👇",
+        "headerY": 1564,
+        "headerW": 600,
+        "headerLinePx": 70,
+        "y": 1180,
+        "width": 320
+      },
+      "format": "bait_peek"
+    },
+    {
+      "id": "p14",
+      "ref": "mansuhn.gotall/7659169338003311885 + app peek",
+      "views": 218800,
+      "durationSec": 8.26,
+      "audio": "refaudio/14.m4a",
+      "texts": [
+        {
+          "text": "if you’re 12:\n\nshort: 140cm - 144cm\naverage: 147cm - 152cm\ntall: 152cm - 157cm",
+          "y": 501.25,
+          "w": 803,
+          "linePx": 88.5
+        }
+      ],
+      "app": {
+        "image": "app/result.png",
+        "atSec": 6.26,
+        "fadeSec": 0,
+        "pop": true,
+        "header": "comment your height\nfor a prediction 👇",
+        "headerY": 1564,
+        "headerW": 600,
+        "headerLinePx": 70,
+        "y": 1180,
+        "width": 320
+      },
+      "format": "bait_peek"
+    },
+    {
+      "id": "p10",
+      "ref": "bledarrrrg/7658798292490407182 + app peek",
+      "views": 526900,
+      "durationSec": 12.0,
+      "audio": "refaudio/10.m4a",
+      "texts": [
+        {
+          "text": "If you are:\n\n5’4 at 14\n5’6 at 14\n5’8 at 14\n\nYoU WILL be:\n\n6’0 at 18\n6’3 at 18\n5’8 at 18",
+          "y": 896.0,
+          "w": 554,
+          "linePx": 112
+        }
+      ],
+      "app": {
+        "image": "app/result.png",
+        "atSec": 10.0,
+        "fadeSec": 0,
+        "pop": true,
+        "header": "comment your height\nfor a prediction 👇",
+        "headerY": 1580,
+        "headerW": 600,
+        "headerLinePx": 70,
+        "y": 1299,
+        "width": 300
+      },
+      "format": "bait_peek"
     }
   ],
   "_mix": {
-    "comment_bait": 0.4,
-    "app_reveal": 0.35,
-    "text_remake": 0.25,
-    "_why": "comment_bait = Mav's own winners (155-218K views, 33-79 comments per 1k; reply bot answers with the app). app_reveal = GoTall outliers that end on the app result. text_remake = GoTall outliers with no app (reach)."
+    "comment_bait": 0.3,
+    "bait_peek": 0.25,
+    "app_reveal": 0.25,
+    "text_remake": 0.2,
+    "_why": "bait_peek = comment bait or chart text, then a small GoPeak card for the last 2 s + 'comment your height for a prediction'."
   }
 }

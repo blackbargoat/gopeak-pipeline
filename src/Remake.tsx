@@ -1,5 +1,5 @@
 import React from 'react';
-import {AbsoluteFill, Audio, Img, interpolate, Loop, OffthreadVideo, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AbsoluteFill, Audio, Img, interpolate, Loop, OffthreadVideo, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {measureText} from '@remotion/layout-utils';
 import {CLASSIC_FONT, CLASSIC_STACK, loadFonts, useFontsReady} from './fonts';
 import {RichText} from './RichText';
@@ -17,6 +17,7 @@ export type RemakeApp = {
 	headerY: number;
 	headerW?: number;
 	headerLinePx?: number;
+	pop?: boolean; // springs in (small card peek) instead of a hard cut
 	y: number;
 	width: number;
 };
@@ -28,6 +29,12 @@ export type RemakeProps = {
 	texts: RemakeText[];
 	app: RemakeApp | null;
 	appAspect: number; // image height / width
+	// Per-use variation so each trial reel of the same clip is its own file (mirror, crop, speed, grade).
+	mirror?: boolean;
+	zoom?: number; // 1.00-1.08
+	rate?: number; // 0.96-1.04
+	shiftX?: number; // px, crop offset
+	grade?: {brightness: number; contrast: number; saturate: number};
 };
 
 // CapCut default text: Proxima Nova Semibold, white, solid black stroke, no glow.
@@ -90,7 +97,16 @@ export const Remake: React.FC<RemakeProps> = (p) => {
 	const frame = useCurrentFrame();
 	const {fps} = useVideoConfig();
 	const t = frame / fps;
-	const loopFrames = Math.max(1, Math.round(p.faceLoopSec * fps));
+	const rate = p.rate ?? 1;
+	const loopFrames = Math.max(1, Math.round((p.faceLoopSec / rate) * fps));
+	const g = p.grade ?? {brightness: 1, contrast: 1, saturate: 1};
+	const faceStyle: React.CSSProperties = {
+		width: '100%',
+		height: '100%',
+		objectFit: 'cover',
+		transform: `translateX(${p.shiftX ?? 0}px) scale(${(p.mirror ? -1 : 1) * (p.zoom ?? 1)}, ${p.zoom ?? 1})`,
+		filter: `brightness(${g.brightness}) contrast(${g.contrast}) saturate(${g.saturate})`,
+	};
 	const app = p.app;
 	const appOpacity = app
 		? app.fadeSec > 0
@@ -100,10 +116,11 @@ export const Remake: React.FC<RemakeProps> = (p) => {
 				: 0
 		: 0;
 	const appH = app ? app.width * p.appAspect : 0;
+	const popS = app?.pop && t >= app.atSec ? spring({frame: frame - Math.round(app.atSec * fps), fps, config: {damping: 13, stiffness: 190}}) : 1;
 	return (
 		<AbsoluteFill style={{backgroundColor: '#000'}}>
 			<Loop durationInFrames={loopFrames}>
-				<OffthreadVideo src={staticFile(p.face)} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+				<OffthreadVideo src={staticFile(p.face)} muted playbackRate={rate} style={faceStyle} />
 			</Loop>
 			<Audio src={staticFile(p.audio)} />
 			{p.texts.map((x, i) => {
@@ -132,6 +149,7 @@ export const Remake: React.FC<RemakeProps> = (p) => {
 							borderRadius: 30,
 							boxShadow: '0 18px 50px rgba(0,0,0,0.55)',
 							opacity: appOpacity,
+							transform: `scale(${0.82 + 0.18 * popS})`,
 						}}
 					/>
 				</>

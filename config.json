@@ -1,0 +1,20 @@
+{
+  "_note": "Pipeline agent settings. HQ's agent panels save the same keys to pipe_settings.agents; the worker copies them here before each run.",
+  "usesPerClip": 4,
+  "perAccountMax": 2,
+  "mix": {
+    "comment_bait": 0.3,
+    "bait_peek": 0.25,
+    "app_reveal": 0.25,
+    "text_remake": 0.2
+  },
+  "learn": true,
+  "vary": {
+    "mirror": true,
+    "crop": true,
+    "speed": true,
+    "grade": true,
+    "audio": true,
+    "caption": true
+  }
+}

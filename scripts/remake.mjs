@@ -12,6 +12,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {bundle} from '@remotion/bundler';
 import {renderMedia, selectComposition} from '@remotion/renderer';
+import {audio, caption, footage} from './vary.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PUBLIC = path.join(ROOT, 'public');
@@ -87,7 +88,6 @@ async function main() {
 	}
 	const {templates} = JSON.parse(fs.readFileSync(path.join(ROOT, 'refs/templates.json'), 'utf8'));
 	const wanted = args.templates ? String(args.templates).split(',') : null;
-	const per = Math.min(4, Number(args.per ?? 4));
 
 	log('bundling…');
 	const jobs = inputs.map((input, k) => {
@@ -98,45 +98,60 @@ async function main() {
 	});
 	const serveUrl = await bundle({entryPoint: path.join(ROOT, 'src/index.ts'), publicDir: PUBLIC});
 
-	// Content mix per clip (see PLAN.md): each account gets one comment-bait post (Mav's proven "Flex your
-	// height" format, the reply bot turns comments into installs) and one remake, mostly ones that end on
-	// the GoPeak result screen. Pools rotate by clip so clips filmed the same day get different references.
-	const pool = (wanted ? templates.filter((t) => wanted.includes(t.id)) : templates).sort((x, y) => y.views - x.views);
-	const byFmt = (f) => pool.filter((t) => t.format === f);
-	const ORDER = ['comment_bait', 'comment_bait', 'app_reveal', null]; // null = text_remake on even clips, app_reveal on odd
-	const used = new Set();
-	const take = (fmt, k) => {
-		const list = byFmt(fmt).length ? byFmt(fmt) : pool;
-		for (let i = 0; i < list.length; i++) {
-			const t = list[(k + i) % list.length];
-			if (!used.has(`${k}:${t.id}`)) return used.add(`${k}:${t.id}`), t;
-		}
-		return list[k % list.length];
+	// Settings come from config.json (edited from HQ's agent panels). Mix weights may be updated by learn.mjs.
+	const CFG = JSON.parse(fs.readFileSync(path.join(ROOT, 'config.json'), 'utf8'));
+	const learned = fs.existsSync(path.join(ROOT, 'learned.json')) ? JSON.parse(fs.readFileSync(path.join(ROOT, 'learned.json'), 'utf8')) : null;
+	const mix = CFG.learn && learned?.mix ? learned.mix : CFG.mix;
+	const nUses = Math.min(Number(args.per ?? CFG.usesPerClip), ACCOUNTS.length * CFG.perAccountMax);
+
+	// Which formats this clip gets: largest-remainder split of nUses by the mix, comment bait first so each
+	// account opens with the format that drives comments.
+	const formatPlan = (n) => {
+		const keys = Object.keys(mix);
+		const raw = keys.map((k) => [k, mix[k] * n]);
+		const out = Object.fromEntries(raw.map(([k, v]) => [k, Math.floor(v)]));
+		let left = n - Object.values(out).reduce((a, b) => a + b, 0);
+		for (const [k] of raw.sort((x, y) => (y[1] % 1) - (x[1] % 1))) if (left-- > 0) out[k]++;
+		const seq = [];
+		for (const k of keys.sort((x, y) => (x === 'comment_bait' ? -1 : y === 'comment_bait' ? 1 : 0))) for (let i = 0; i < out[k]; i++) seq.push(k);
+		return seq;
 	};
+	const pool = (wanted ? templates.filter((t) => wanted.includes(t.id)) : templates).sort((x, y) => y.views - x.views);
+	const byFmt = (f) => (pool.filter((t) => t.format === f).length ? pool.filter((t) => t.format === f) : pool);
 	for (const job of jobs) {
-		const picks = wanted
-			? pool.slice(0, per)
-			: ORDER.slice(0, per).map((f, i) => take(f ?? (job.k % 2 ? 'app_reveal' : 'text_remake'), job.k * 2 + i));
+		const seq = wanted ? pool.slice(0, nUses).map((t) => t.format) : formatPlan(nUses);
+		const seen = {};
+		const picks = seq.map((f, i) => {
+			const list = byFmt(f);
+			seen[f] = (seen[f] ?? -1) + 1;
+			const t = wanted ? pool[i % pool.length] : list[(job.k * 2 + seen[f]) % list.length];
+			const reuse = Math.floor(seen[f] / list.length); // >0 only when a format has fewer templates than uses
+			return {t, f, vi: i, reuse};
+		});
 		const outDir = path.join(ROOT, 'out', job.jobId);
 		fs.mkdirSync(outDir, {recursive: true});
-		const manifest = {jobId: job.jobId, source: path.resolve(job.input), createdAt: new Date().toISOString(), variants: []};
-		for (const [i, t] of picks.entries()) {
+		const manifest = {jobId: job.jobId, source: path.resolve(job.input), createdAt: new Date().toISOString(), settings: {nUses, mix, vary: CFG.vary}, variants: []};
+		for (const {t, vi} of picks) {
+			const i = vi;
 			const account = ACCOUNTS[i % ACCOUNTS.length];
 			const id = `${account}-${Math.floor(i / ACCOUNTS.length) + 1}-ref${t.id}`;
+			const audioPool = [...new Set(byFmt(t.format).map((x) => x.audio))];
+			const texts = t.texts.map((x) => ({...x, text: caption(x.text, i, CFG.vary, t.alts || [])}));
 			const inputProps = {
 				face: path.relative(PUBLIC, job.face).split(path.sep).join('/'),
 				faceLoopSec: job.loopSec,
 				durationSec: t.durationSec,
-				audio: t.audio,
-				texts: t.texts,
+				audio: audio(t, i, audioPool, CFG.vary),
+				texts,
 				app: t.app,
 				appAspect: t.app ? ASPECT[t.app.image] : 1,
+				...footage(i, CFG.vary),
 			};
 			const composition = await selectComposition({serveUrl, id: 'Remake', inputProps});
 			const file = path.join(outDir, `${id}.mp4`);
 			log(`render ${id} (ref @${t.ref}, ${(t.views / 1000).toFixed(0)}K views)`);
 			await renderMedia({composition, serveUrl, codec: 'h264', crf: 18, audioBitrate: '192k', outputLocation: file, inputProps});
-			manifest.variants.push({id, account, template: t.id, format: t.format, ref: t.ref, text: t.texts[0].text, file: path.relative(ROOT, file)});
+			manifest.variants.push({id, account, template: t.id, format: t.format, ref: t.ref, text: texts[0].text, audio: inputProps.audio, mirror: inputProps.mirror, file: path.relative(ROOT, file)});
 		}
 		fs.writeFileSync(path.join(outDir, 'manifest.json'), JSON.stringify(manifest, null, 2));
 		log(`done → ${outDir}`);

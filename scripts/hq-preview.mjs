@@ -46,6 +46,6 @@ const slots = ['11:00', '16:00', '20:30'];
 assign(posts, slots);
 fs.writeFileSync(
 	path.join(OUT, 'hq-preview.json'),
-	JSON.stringify({settings: {slots, tz: 'America/New_York', autopilot: true, worker_seen_at: new Date().toISOString()}, clips, posts}, null, 1),
+	JSON.stringify({settings: {slots, tz: 'America/New_York', autopilot: true, worker_seen_at: new Date().toISOString(), learned: fs.existsSync(path.join(ROOT, 'learned.json')) ? JSON.parse(fs.readFileSync(path.join(ROOT, 'learned.json'), 'utf8')) : {}}, clips, posts}, null, 1),
 );
 console.log(`preview: ${clips.length} clips, ${posts.length} posts`);
