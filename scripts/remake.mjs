@@ -13,6 +13,7 @@ import {fileURLToPath} from 'node:url';
 import {bundle} from '@remotion/bundler';
 import {renderMedia, selectComposition} from '@remotion/renderer';
 import {audio, caption, footage} from './vary.mjs';
+import {snap} from './beats.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PUBLIC = path.join(ROOT, 'public');
@@ -151,6 +152,21 @@ async function main() {
 				appAspect: t.app ? aspectOf(t.app.image) : 1,
 				...footage(i, CFG.vary),
 			};
+			// Land every cut on a beat of the audio this variant actually uses.
+			const aFile = path.join(PUBLIC, inputProps.audio);
+			if (inputProps.app) {
+				const at0 = inputProps.app.atSec, at = snap(aFile, at0, 0.6);
+				inputProps.app = {...inputProps.app, atSec: at};
+				inputProps.texts = inputProps.texts.map((x) => (x.to != null && Math.abs(x.to - at0) < 0.01 ? {...x, to: at} : x));
+			}
+			if (inputProps.screens.length) {
+				const sc = inputProps.screens.map((x) => ({...x}));
+				const hook0 = sc[0].from;
+				sc.forEach((x, k) => (x.from = snap(aFile, x.from, k === 0 ? 1.0 : 0.5)));
+				sc.forEach((x, k) => (x.to = k < sc.length - 1 ? sc[k + 1].from : x.to));
+				inputProps.screens = sc;
+				inputProps.texts = inputProps.texts.map((x) => (x.to != null && Math.abs(x.to - hook0) < 0.01 ? {...x, to: sc[0].from} : x));
+			}
 			const composition = await selectComposition({serveUrl, id: 'Remake', inputProps});
 			const file = path.join(outDir, `${id}.mp4`);
 			log(`render ${id} (ref @${t.ref}, ${(t.views / 1000).toFixed(0)}K views)`);

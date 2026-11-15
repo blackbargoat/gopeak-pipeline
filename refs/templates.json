@@ -26,8 +26,8 @@
       "audio": "refaudio/03.m4a",
       "texts": [
         {
-          "text": "Be 6ft with long torso?\n\nOR\n\nBe 5’10 with short torso?",
-          "y": 642,
+          "text": "Be 6ft with long torso?\n\nOR\n\nBe 5’10 with short torso?\n\ncomment below",
+          "y": 733,
           "to": 4.47,
           "w": 828,
           "linePx": 91
@@ -54,8 +54,8 @@
       "audio": "refaudio/04.m4a",
       "texts": [
         {
-          "text": "Be 6ft with long torso?\n\n\nOr\n\n\nBe 5’10 with short torso?",
-          "y": 772,
+          "text": "Be 6ft with long torso?\n\n\nOr\n\n\nBe 5’10 with short torso?\n\n\ncomment below",
+          "y": 904,
           "to": 7.03,
           "w": 828,
           "linePx": 88
@@ -122,8 +122,8 @@
         "atSec": 8.2,
         "fadeSec": 0,
         "header": "where do YOU rank",
-        "headerY": 568,
-        "y": 1010,
+        "headerY": 524,
+        "y": 1090,
         "width": 560,
         "headerW": 603,
         "headerLinePx": 70
@@ -265,7 +265,7 @@
       "audio": "refaudio/09.m4a",
       "texts": [
         {
-          "text": "Flex your height with your age.\n\n🟢 = Tall\n = Potential\n = Cooked\n\nComment below",
+          "text": "Flex your height with your age.\n\n🟢 = Tall\n🔵 = Potential\n🔴 = Cooked\n\nComment below",
           "y": 580,
           "w": 900,
           "linePx": 80
@@ -282,7 +282,7 @@
       "audio": "refaudio/15.m4a",
       "texts": [
         {
-          "text": "Flex your height with your age.\n🟢 = Tall\n = Average\n = Cooked\n\nComment below",
+          "text": "Flex your height with your age.\n🟢 = Tall\n🔵 = Average\n🔴 = Cooked\n\nComment below",
           "y": 540,
           "w": 900,
           "linePx": 80
@@ -299,7 +299,7 @@
       "audio": "refaudio/01.m4a",
       "texts": [
         {
-          "text": "Flex your height with your age\n⚫ = Alien\n🟢 = Tall\n = Potential\n = Cooked\n⚪ = Growth Is Over",
+          "text": "Flex your height with your age\n⚫ = Alien\n🟢 = Tall\n🔵 = Potential\n🔴 = Cooked\n⚪ = Growth Is Over",
           "y": 540,
           "w": 900,
           "linePx": 80
@@ -316,7 +316,7 @@
       "audio": "refaudio/06.m4a",
       "texts": [
         {
-          "text": "Flex your height with your age.\n\n🟢 = Tall\n = Cooked\n = Potential\n\nComment your height",
+          "text": "Flex your height with your age.\n\n🟢 = Tall\n🔴 = Cooked\n🔵 = Potential\n\nComment your height",
           "y": 580,
           "w": 900,
           "linePx": 80
@@ -333,10 +333,11 @@
       "audio": "refaudio/09.m4a",
       "texts": [
         {
-          "text": "Flex your height with your age.\n\n🟢 = Tall\n = Potential\n = Cooked\n\nComment below",
+          "text": "Flex your height with your age.\n\n🟢 = Tall\n🔵 = Potential\n🔴 = Cooked\n\nComment below",
           "y": 560.0,
           "w": 900,
-          "linePx": 80
+          "linePx": 80,
+          "to": 6.0
         }
       ],
       "app": {
@@ -345,11 +346,11 @@
         "fadeSec": 0,
         "pop": true,
         "header": "comment your height\nfor a prediction",
-        "headerY": 1447,
+        "headerY": 1317,
         "headerW": 600,
         "headerLinePx": 70,
-        "y": 1130,
-        "width": 380
+        "y": 880,
+        "width": 560
       }
     },
     {
@@ -361,10 +362,11 @@
       "audio": "refaudio/15.m4a",
       "texts": [
         {
-          "text": "Flex your height with your age.\n🟢 = Tall\n = Average\n = Cooked\n\nComment below",
+          "text": "Flex your height with your age.\n🟢 = Tall\n🔵 = Average\n🔴 = Cooked\n\nComment below",
           "y": 520.0,
           "w": 900,
-          "linePx": 80
+          "linePx": 80,
+          "to": 6.0
         }
       ],
       "app": {
@@ -373,11 +375,11 @@
         "fadeSec": 0,
         "pop": true,
         "header": "comment your height\nfor a prediction",
-        "headerY": 1447,
+        "headerY": 1317,
         "headerW": 600,
         "headerLinePx": 70,
-        "y": 1130,
-        "width": 380
+        "y": 880,
+        "width": 560
       }
     },
     {
@@ -389,10 +391,11 @@
       "audio": "refaudio/01.m4a",
       "texts": [
         {
-          "text": "Flex your height with your age\n⚫ = Alien\n🟢 = Tall\n = Potential\n = Cooked\n⚪ = Growth Is Over",
+          "text": "Flex your height with your age\n⚫ = Alien\n🟢 = Tall\n🔵 = Potential\n🔴 = Cooked\n⚪ = Growth Is Over",
           "y": 520.0,
           "w": 900,
-          "linePx": 80
+          "linePx": 80,
+          "to": 6.0
         }
       ],
       "app": {
@@ -401,11 +404,11 @@
         "fadeSec": 0,
         "pop": true,
         "header": "comment your height\nfor a prediction",
-        "headerY": 1447,
+        "headerY": 1317,
         "headerW": 600,
         "headerLinePx": 70,
-        "y": 1130,
-        "width": 380
+        "y": 880,
+        "width": 560
       }
     },
     {
@@ -417,10 +420,11 @@
       "audio": "refaudio/06.m4a",
       "texts": [
         {
-          "text": "Flex your height with your age.\n\n🟢 = Tall\n = Cooked\n = Potential\n\nComment your height",
+          "text": "Flex your height with your age.\n\n🟢 = Tall\n🔴 = Cooked\n🔵 = Potential\n\nComment your height",
           "y": 560.0,
           "w": 900,
-          "linePx": 80
+          "linePx": 80,
+          "to": 6.0
         }
       ],
       "app": {
@@ -429,11 +433,11 @@
         "fadeSec": 0,
         "pop": true,
         "header": "comment your height\nfor a prediction",
-        "headerY": 1447,
+        "headerY": 1317,
         "headerW": 600,
         "headerLinePx": 70,
-        "y": 1130,
-        "width": 380
+        "y": 880,
+        "width": 560
       }
     },
     {
@@ -447,7 +451,8 @@
           "text": "if you’re 12:\n\nshort: 140cm - 144cm\naverage: 147cm - 152cm\ntall: 152cm - 157cm",
           "y": 502.5,
           "w": 803,
-          "linePx": 89
+          "linePx": 89,
+          "to": 8.63
         }
       ],
       "app": {
@@ -456,11 +461,11 @@
         "fadeSec": 0,
         "pop": true,
         "header": "comment your height\nfor a prediction",
-        "headerY": 1447,
+        "headerY": 1317,
         "headerW": 600,
         "headerLinePx": 70,
-        "y": 1130,
-        "width": 380
+        "y": 880,
+        "width": 560
       },
       "format": "bait_peek"
     },
@@ -475,7 +480,8 @@
           "text": "if you’re 12:\n\nshort: 140cm - 144cm\naverage: 147cm - 152cm\ntall: 152cm - 157cm",
           "y": 501.25,
           "w": 803,
-          "linePx": 88.5
+          "linePx": 88.5,
+          "to": 6.26
         }
       ],
       "app": {
@@ -484,11 +490,11 @@
         "fadeSec": 0,
         "pop": true,
         "header": "comment your height\nfor a prediction",
-        "headerY": 1447,
+        "headerY": 1317,
         "headerW": 600,
         "headerLinePx": 70,
-        "y": 1130,
-        "width": 380
+        "y": 880,
+        "width": 560
       },
       "format": "bait_peek"
     },
