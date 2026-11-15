@@ -1,9 +1,9 @@
 {
   "mix": {
-    "comment_bait": null,
-    "bait_peek": null,
-    "app_reveal": null,
-    "text_remake": null
+    "comment_bait": 0.398,
+    "bait_peek": 0.221,
+    "app_reveal": 0.204,
+    "text_remake": 0.177
   },
   "stats": {
     "comment_bait": {
@@ -37,5 +37,5 @@
   },
   "templates": {},
   "basis": "33 videos (0 matched exactly, rest by caption)",
-  "updatedAt": "2026-11-15T16:22:43.858Z"
+  "updatedAt": "2026-11-15T16:22:57.161Z"
 }

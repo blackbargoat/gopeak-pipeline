@@ -59,7 +59,8 @@ let mix = {};
 for (const f of Object.keys(cfg.mix)) {
 	const share = stats[f].score != null && total ? stats[f].score / total : cfg.mix[f];
 	let v = 0.5 * cfg.mix[f] + 0.5 * share;
-	v = Math.max(base[f] - 0.15, Math.min(base[f] + 0.15, v));
+	const b0 = base[f] ?? cfg.mix[f];
+	v = Math.max(b0 - 0.15, Math.min(b0 + 0.15, v));
 	mix[f] = Math.max(0.1, v);
 }
 const sum = Object.values(mix).reduce((a, b) => a + b, 0);
