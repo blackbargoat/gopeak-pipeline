@@ -1,0 +1,8 @@
+node_modules/
+whisper.cpp/
+out/
+input/
+public/jobs/
+public/fonts/AppleColorEmoji-Linux.ttf
+.env
+.DS_Store
