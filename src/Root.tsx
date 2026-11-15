@@ -21,29 +21,33 @@ const preview: ClipProps = {
 };
 
 export const explainerDefault: ExplainerProps = {
-	durationSec: 26,
+	durationSec: 28,
 	audio: 'music/gaining-season.mp3',
 	people: [
 		{label: 'mom', inches: 66},
 		{label: 'dad', inches: 70},
-		{label: 'him · 16', inches: 73, color: '#111114', tag: 'past his genes'},
+		{label: 'him · 16', inches: 73, color: '#141416', key: true},
 	],
+	compare: {label: 'nba avg', inches: 78, color: '#d6d6db'},
 	title: 'How is he 6’1” at 16?',
 	sub: 'mom 5’6” · dad 5’10”',
 	rangeCenter: 70.5,
+	stamp: 'above his genes',
 	scenes: [
 		{at: 0, label: 'the question', text: ''},
-		{at: 4.5, label: 'the genes', text: 'Mom + dad + 5 inches, divided by 2.\nHis genes point to 5’10½”.', show: 'range'},
-		{at: 10.5, label: 'the twist', text: 'He’s already 2½ inches past it.', show: 'past'},
-		{at: 15, label: 'what you control', text: 'Genes set the range.\nThese decide where you land:', show: 'three'},
-		{at: 21.5, label: 'your turn', text: '', show: 'cta'},
+		{at: 3.5, label: 'the genes', text: 'Add mom and dad,\nplus 5 inches for a boy.\nHalf of that is his target.', show: 'range'},
+		{at: 7.5, label: 'the target', text: '5’10½”,\ngive or take 4 inches.', show: 'range'},
+		{at: 11, label: 'the twist', text: 'He’s already 6’1”.\n2½ inches above it.', show: 'past'},
+		{at: 15, label: 'for scale', text: 'The average NBA player\nis about 6’6”.', show: 'compare'},
+		{at: 18.5, label: 'what you control', text: '', show: 'three'},
+		{at: 23, label: 'your turn', text: '', show: 'cta'},
 	],
 	three: [
-		{big: '8–10 h', small: 'of sleep a night'},
-		{big: '1,300 mg', small: 'of calcium a day'},
-		{big: '52 g', small: 'of protein a day'},
+		{big: '8–10 h', small: 'sleep'},
+		{big: '1,300 mg', small: 'calcium'},
+		{big: '52 g', small: 'protein'},
 	],
-	cta: {title: 'Comment your age + height', sub: 'I’ll tell you where you land.', image: 'app/home_peek.png'},
+	cta: {title: 'Comment your age\n+ height', sub: 'I’ll tell you where you land.', typed: '15 · 5’7”', image: 'app/home_peek.png'},
 };
 
 const remakePreview: RemakeProps = {
