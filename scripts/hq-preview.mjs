@@ -36,6 +36,7 @@ jobs.forEach((job, k) => {
 			video_url: url(file),
 			thumb_url: url(poster(file, file.replace(/\.mp4$/, '.jpg'))),
 			format: v.format || 'talking',
+			sound: v.sound || null,
 			trial: i !== 2, // preview only: one regular post per clip so both looks show
 			status: 'scheduled',
 			order: i * jobs.length + k,

@@ -173,7 +173,7 @@ async function main() {
 			const file = path.join(outDir, `${id}.mp4`);
 			log(`render ${id} (ref @${t.ref}, ${(t.views / 1000).toFixed(0)}K views)`);
 			await renderMedia({composition, serveUrl, codec: 'h264', crf: 18, audioBitrate: '192k', outputLocation: file, inputProps});
-			manifest.variants.push({id, account, template: t.id, format: t.format, ref: t.ref, text: firstText, audio: inputProps.audio, mirror: inputProps.mirror, file: path.relative(ROOT, file)});
+			manifest.variants.push({id, account, template: t.id, format: t.format, ref: t.ref, sound: t.sound || null, text: firstText, audio: inputProps.audio, mirror: inputProps.mirror, file: path.relative(ROOT, file)});
 		}
 		fs.writeFileSync(path.join(outDir, 'manifest.json'), JSON.stringify(manifest, null, 2));
 		log(`done → ${outDir}`);
