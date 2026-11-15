@@ -98,11 +98,25 @@ async function main() {
 	});
 	const serveUrl = await bundle({entryPoint: path.join(ROOT, 'src/index.ts'), publicDir: PUBLIC});
 
-	// Spread the references across clips so two clips filmed the same day don't get the same ones.
+	// Content mix per clip (see PLAN.md): each account gets one comment-bait post (Mav's proven "Flex your
+	// height" format, the reply bot turns comments into installs) and one remake, mostly ones that end on
+	// the GoPeak result screen. Pools rotate by clip so clips filmed the same day get different references.
 	const pool = (wanted ? templates.filter((t) => wanted.includes(t.id)) : templates).sort((x, y) => y.views - x.views);
+	const byFmt = (f) => pool.filter((t) => t.format === f);
+	const ORDER = ['comment_bait', 'comment_bait', 'app_reveal', null]; // null = text_remake on even clips, app_reveal on odd
+	const used = new Set();
+	const take = (fmt, k) => {
+		const list = byFmt(fmt).length ? byFmt(fmt) : pool;
+		for (let i = 0; i < list.length; i++) {
+			const t = list[(k + i) % list.length];
+			if (!used.has(`${k}:${t.id}`)) return used.add(`${k}:${t.id}`), t;
+		}
+		return list[k % list.length];
+	};
 	for (const job of jobs) {
-		const picks = [];
-		for (let i = 0; picks.length < per && i < pool.length; i++) picks.push(pool[(job.k * per + i) % pool.length]);
+		const picks = wanted
+			? pool.slice(0, per)
+			: ORDER.slice(0, per).map((f, i) => take(f ?? (job.k % 2 ? 'app_reveal' : 'text_remake'), job.k * 2 + i));
 		const outDir = path.join(ROOT, 'out', job.jobId);
 		fs.mkdirSync(outDir, {recursive: true});
 		const manifest = {jobId: job.jobId, source: path.resolve(job.input), createdAt: new Date().toISOString(), variants: []};
@@ -122,7 +136,7 @@ async function main() {
 			const file = path.join(outDir, `${id}.mp4`);
 			log(`render ${id} (ref @${t.ref}, ${(t.views / 1000).toFixed(0)}K views)`);
 			await renderMedia({composition, serveUrl, codec: 'h264', crf: 18, audioBitrate: '192k', outputLocation: file, inputProps});
-			manifest.variants.push({id, account, template: t.id, ref: t.ref, text: t.texts[0].text, file: path.relative(ROOT, file)});
+			manifest.variants.push({id, account, template: t.id, format: t.format, ref: t.ref, text: t.texts[0].text, file: path.relative(ROOT, file)});
 		}
 		fs.writeFileSync(path.join(outDir, 'manifest.json'), JSON.stringify(manifest, null, 2));
 		log(`done → ${outDir}`);

@@ -8,3 +8,4 @@ public/fonts/AppleColorEmoji-Linux.ttf
 .DS_Store
 refs/*.mp4
 public/refaudio/
+public/fonts/ProximaNova-Semibold.*

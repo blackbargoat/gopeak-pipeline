@@ -1,55 +1,334 @@
 {
-  "_note": "Exact recreations of the GoPeak HQ reference outliers (data/outliers.json). Same text, line breaks, positions, timing and audio as the original; Mav's clip replaces the face, GoPeak's screen replaces GoTall's. Coordinates are in the 1080x1920 frame; y = center of the text block.",
+  "_note": "Exact recreations of the GoPeak HQ reference outliers (data/outliers.json). Same text, line breaks, positions, timing and audio as the original; Mav's clip replaces the face, GoPeak's screen replaces GoTall's. Coordinates are in the 1080x1920 frame; y = center of the text block. Text sizes are measured from the reference frames: w = widest line width in px (text only, emoji excluded), linePx = line pitch.",
   "templates": [
     {
-      "id": "01", "ref": "mansuhn.gotall/7650565359690321183", "views": 2000000, "durationSec": 8.33, "audio": "refaudio/01.m4a",
-      "texts": [{"text": "signs you’re genetically\ntaller:\n\n1. No body hair\n2. Long ramus\n3. Oval shaped pelvis\n\nHM: Strong delts", "y": 1212, "size": 62}],
+      "id": "01",
+      "ref": "mansuhn.gotall/7650565359690321183",
+      "views": 2000000,
+      "durationSec": 8.33,
+      "audio": "refaudio/01.m4a",
+      "texts": [
+        {
+          "text": "signs you’re genetically\ntaller:\n\n1. No body hair\n2. Long ramus\n3. Oval shaped pelvis\n\nHM: Strong delts",
+          "y": 1220,
+          "w": 819,
+          "linePx": 95
+        }
+      ],
+      "app": null,
+      "format": "text_remake"
+    },
+    {
+      "id": "03",
+      "ref": "bledarrrrg/7647636676449275167",
+      "views": 880600,
+      "durationSec": 8.54,
+      "audio": "refaudio/03.m4a",
+      "texts": [
+        {
+          "text": "Be 6ft with long torso?\n\nOR\n\nBe 5’10 with short torso?",
+          "y": 642,
+          "to": 4.47,
+          "w": 828,
+          "linePx": 91
+        }
+      ],
+      "app": {
+        "image": "app/result.png",
+        "atSec": 4.47,
+        "fadeSec": 0,
+        "header": "Take the quiz and see what\nyour build says⬇️",
+        "headerY": 326,
+        "y": 1005,
+        "width": 640,
+        "headerW": 707,
+        "headerLinePx": 70
+      },
+      "format": "app_reveal"
+    },
+    {
+      "id": "04",
+      "ref": "bledarrrrg/7659177300814073102",
+      "views": 776400,
+      "durationSec": 10.7,
+      "audio": "refaudio/04.m4a",
+      "texts": [
+        {
+          "text": "Be 6ft with long torso?\n\n\nOr\n\n\nBe 5’10 with short torso?",
+          "y": 772,
+          "to": 7.03,
+          "w": 828,
+          "linePx": 88
+        }
+      ],
+      "app": {
+        "image": "app/result.png",
+        "atSec": 7.03,
+        "fadeSec": 0,
+        "header": "Check your result ⬇️",
+        "headerY": 330,
+        "y": 1010,
+        "width": 640,
+        "headerW": 660,
+        "headerLinePx": 70
+      },
+      "format": "app_reveal"
+    },
+    {
+      "id": "06",
+      "ref": "gotallkae/7653751513633819918",
+      "views": 691700,
+      "durationSec": 13.81,
+      "audio": "refaudio/06.m4a",
+      "texts": [
+        {
+          "text": "Ever notice how people\nwith late puberty always\ngrow over 6 foot tall...",
+          "y": 961,
+          "to": 11.0,
+          "w": 658,
+          "linePx": 73
+        }
+      ],
+      "app": {
+        "image": "app/result.png",
+        "atSec": 11.0,
+        "fadeSec": 0,
+        "header": "Height estimate app ⬇️",
+        "headerY": 332,
+        "y": 1000,
+        "width": 600,
+        "headerW": 588,
+        "headerLinePx": 70
+      },
+      "format": "app_reveal"
+    },
+    {
+      "id": "07",
+      "ref": "brady.gotall/7644048049144073485",
+      "views": 690900,
+      "durationSec": 11.93,
+      "audio": "refaudio/07.m4a",
+      "texts": [
+        {
+          "text": "my top 5 horror movies:\n\n🥇 - stop growing at 15\n🥈 - stop growing at 15\n🥉 -stop growing at 15\n4 - stop growing at 15\n5 - stop growing at 15",
+          "y": 992,
+          "to": 8.2,
+          "w": 728,
+          "linePx": 83
+        }
+      ],
+      "app": {
+        "image": "app/result.png",
+        "atSec": 8.2,
+        "fadeSec": 0,
+        "header": "where do YOU rank ⬇️⬇️⬇️",
+        "headerY": 568,
+        "y": 1010,
+        "width": 560,
+        "headerW": 603,
+        "headerLinePx": 70
+      },
+      "format": "app_reveal"
+    },
+    {
+      "id": "08",
+      "ref": "mansuhn.gotall/7658023824717335839",
+      "views": 627100,
+      "durationSec": 10.63,
+      "audio": "refaudio/08.m4a",
+      "texts": [
+        {
+          "text": "if you’re 12:\n\nshort: 140cm - 144cm\naverage: 147cm - 152cm\ntall: 152cm - 157cm",
+          "y": 577,
+          "to": 3.8,
+          "w": 803,
+          "linePx": 89
+        }
+      ],
+      "app": {
+        "image": "app/result.png",
+        "atSec": 3.8,
+        "fadeSec": 3.0,
+        "header": "what about 18? ⬇️",
+        "headerY": 298,
+        "y": 1020,
+        "width": 640,
+        "headerW": 510,
+        "headerLinePx": 70
+      },
+      "format": "app_reveal"
+    },
+    {
+      "id": "09",
+      "ref": "gotallkae/7642570802000350477",
+      "views": 620000,
+      "durationSec": 7.1,
+      "audio": "refaudio/09.m4a",
+      "texts": [
+        {
+          "text": "Having a short mom is the\nmost BRUTAL nerf, even if\nyour dad is tall",
+          "y": 961,
+          "w": 673,
+          "linePx": 69
+        }
+      ],
+      "app": null,
+      "format": "text_remake"
+    },
+    {
+      "id": "10",
+      "ref": "bledarrrrg/7658798292490407182",
+      "views": 526900,
+      "durationSec": 12.0,
+      "audio": "refaudio/10.m4a",
+      "texts": [
+        {
+          "text": "If you are:\n\n5’4 at 14\n5’6 at 14\n5’8 at 14\n\nYoU WILL be:\n\n6’0 at 18\n6’3 at 18\n5’8 at 18",
+          "y": 1053,
+          "to": 9.0,
+          "w": 554,
+          "linePx": 112
+        }
+      ],
+      "app": {
+        "image": "app/result.png",
+        "atSec": 9.0,
+        "fadeSec": 0,
+        "header": "Are you cooked ⬇️?",
+        "headerY": 335,
+        "y": 1010,
+        "width": 620,
+        "headerW": 662,
+        "headerLinePx": 70
+      },
+      "format": "app_reveal"
+    },
+    {
+      "id": "14",
+      "ref": "mansuhn.gotall/7659169338003311885",
+      "views": 218800,
+      "durationSec": 8.26,
+      "audio": "refaudio/14.m4a",
+      "texts": [
+        {
+          "text": "if you’re 12:\n\nshort: 140cm - 144cm\naverage: 147cm - 152cm\ntall: 152cm - 157cm",
+          "y": 728,
+          "to": 5.3,
+          "w": 803,
+          "linePx": 88.5
+        }
+      ],
+      "app": {
+        "image": "app/result.png",
+        "atSec": 5.3,
+        "fadeSec": 0,
+        "header": "are you cooked? ⬇️",
+        "headerY": 342,
+        "y": 1020,
+        "width": 640,
+        "headerW": 550,
+        "headerLinePx": 70
+      },
+      "format": "app_reveal"
+    },
+    {
+      "id": "15",
+      "ref": "bledarrrrg/7655086512194751758",
+      "views": 199600,
+      "durationSec": 7.73,
+      "audio": "refaudio/15.m4a",
+      "texts": [
+        {
+          "text": "If you’re 5’5 at 13, here’s\nwhat your final height will be...",
+          "y": 961,
+          "w": 974,
+          "linePx": 88
+        }
+      ],
+      "app": {
+        "image": "app/ring.png",
+        "atSec": 3.27,
+        "fadeSec": 0,
+        "header": null,
+        "headerY": 0,
+        "y": 1344,
+        "width": 504
+      },
+      "format": "app_reveal"
+    },
+    {
+      "id": "f1",
+      "ref": "own/mav (IG winner)",
+      "views": 158676,
+      "format": "comment_bait",
+      "durationSec": 7.5,
+      "audio": "refaudio/09.m4a",
+      "texts": [
+        {
+          "text": "Flex your height with your age.\n\n🟢 = Tall\n🔵 = Potential\n🔴 = Cooked\n\nComment below",
+          "y": 580,
+          "w": 900,
+          "linePx": 80
+        }
+      ],
       "app": null
     },
     {
-      "id": "03", "ref": "bledarrrrg/7647636676449275167", "views": 880600, "durationSec": 8.54, "audio": "refaudio/03.m4a",
-      "texts": [{"text": "Be 6ft with long torso?\n\nOR\n\nBe 5’10 with short torso?", "y": 643, "size": 62, "to": 4.47}],
-      "app": {"image": "app/result.png", "atSec": 4.47, "fadeSec": 0, "header": "Take the quiz and see what\nyour build says⬇️", "headerY": 335, "y": 1005, "width": 640}
-    },
-    {
-      "id": "04", "ref": "bledarrrrg/7659177300814073102", "views": 776400, "durationSec": 10.7, "audio": "refaudio/04.m4a",
-      "texts": [{"text": "Be 6ft with long torso?\n\nOr\n\nBe 5’10 with short torso?", "y": 773, "size": 62, "to": 7.03}],
-      "app": {"image": "app/result.png", "atSec": 7.03, "fadeSec": 0, "header": "Check your result ⬇️", "headerY": 330, "y": 1010, "width": 640}
-    },
-    {
-      "id": "06", "ref": "gotallkae/7653751513633819918", "views": 691700, "durationSec": 13.81, "audio": "refaudio/06.m4a",
-      "texts": [{"text": "Ever notice how people\nwith late puberty always\ngrow over 6 foot tall...", "y": 955, "size": 56, "to": 11.0}],
-      "app": {"image": "app/result.png", "atSec": 11.0, "fadeSec": 0, "header": "Height estimate app ⬇️", "headerY": 335, "y": 1000, "width": 600}
-    },
-    {
-      "id": "07", "ref": "brady.gotall/7644048049144073485", "views": 690900, "durationSec": 11.93, "audio": "refaudio/07.m4a",
-      "texts": [{"text": "my top 5 horror movies:\n\n🥇 - stop growing at 15\n🥈 - stop growing at 15\n🥉 -stop growing at 15\n4 - stop growing at 15\n5 - stop growing at 15", "y": 984, "size": 58, "to": 8.2}],
-      "app": {"image": "app/result.png", "atSec": 8.2, "fadeSec": 0, "header": "where do YOU rank ⬇️⬇️⬇️", "headerY": 445, "y": 1010, "width": 560}
-    },
-    {
-      "id": "08", "ref": "mansuhn.gotall/7658023824717335839", "views": 627100, "durationSec": 10.63, "audio": "refaudio/08.m4a",
-      "texts": [{"text": "if you’re 12:\n\nshort: 140cm - 144cm\naverage: 147cm - 152cm\ntall: 152cm - 157cm", "y": 576, "size": 60, "to": 3.8}],
-      "app": {"image": "app/result.png", "atSec": 3.8, "fadeSec": 3.0, "header": "what about 18? ⬇️", "headerY": 300, "y": 1020, "width": 640}
-    },
-    {
-      "id": "09", "ref": "gotallkae/7642570802000350477", "views": 620000, "durationSec": 7.1, "audio": "refaudio/09.m4a",
-      "texts": [{"text": "Having a short mom is the\nmost BRUTAL nerf, even if\nyour dad is tall", "y": 955, "size": 52}],
+      "id": "f2",
+      "ref": "own/mav (IG winner)",
+      "views": 154609,
+      "format": "comment_bait",
+      "durationSec": 7.5,
+      "audio": "refaudio/15.m4a",
+      "texts": [
+        {
+          "text": "Flex your height with your age.\n🟢 = Tall\n🔵 = Average\n🔴 = Cooked\n\nComment below",
+          "y": 540,
+          "w": 900,
+          "linePx": 80
+        }
+      ],
       "app": null
     },
     {
-      "id": "10", "ref": "bledarrrrg/7658798292490407182", "views": 526900, "durationSec": 12.0, "audio": "refaudio/10.m4a",
-      "texts": [{"text": "If you are:\n\n5’4 at 14\n5’6 at 14\n5’8 at 14\nYoU WILL be:\n\n6’0 at 18\n6’3 at 18\n5’8 at 18", "y": 1046, "size": 72, "to": 9.0}],
-      "app": {"image": "app/result.png", "atSec": 9.0, "fadeSec": 0, "header": "Are you cooked ⬇️?", "headerY": 330, "y": 1010, "width": 620}
+      "id": "f3",
+      "ref": "own/mav (IG winner)",
+      "views": 217684,
+      "format": "comment_bait",
+      "durationSec": 7.5,
+      "audio": "refaudio/01.m4a",
+      "texts": [
+        {
+          "text": "Flex your height with your age\n⚫ = Alien\n🟢 = Tall\n🔵 = Potential\n🔴 = Cooked\n⚪ = Growth Is Over",
+          "y": 540,
+          "w": 900,
+          "linePx": 80
+        }
+      ],
+      "app": null
     },
     {
-      "id": "14", "ref": "mansuhn.gotall/7659169338003311885", "views": 218800, "durationSec": 8.26, "audio": "refaudio/14.m4a",
-      "texts": [{"text": "if you’re 12:\n\nshort: 140cm - 144cm\naverage: 147cm - 152cm\ntall: 152cm - 157cm", "y": 725, "size": 60, "to": 5.3}],
-      "app": {"image": "app/result.png", "atSec": 5.3, "fadeSec": 0, "header": "are you cooked? ⬇️", "headerY": 335, "y": 1020, "width": 640}
-    },
-    {
-      "id": "15", "ref": "bledarrrrg/7655086512194751758", "views": 199600, "durationSec": 7.73, "audio": "refaudio/15.m4a",
-      "texts": [{"text": "If you’re 5’5 at 13, here’s\nwhat your final height will be...", "y": 950, "size": 52}],
-      "app": {"image": "app/ring.png", "atSec": 3.27, "fadeSec": 0, "header": null, "headerY": 0, "y": 1344, "width": 504}
+      "id": "f4",
+      "ref": "own/mav (IG winner)",
+      "views": 73883,
+      "format": "comment_bait",
+      "durationSec": 7.5,
+      "audio": "refaudio/06.m4a",
+      "texts": [
+        {
+          "text": "Flex your height with your age.\n\n🟢 = Tall\n🔴 = Cooked\n🔵 = Potential\n\nComment your height",
+          "y": 580,
+          "w": 900,
+          "linePx": 80
+        }
+      ],
+      "app": null
     }
-  ]
+  ],
+  "_mix": {
+    "comment_bait": 0.4,
+    "app_reveal": 0.35,
+    "text_remake": 0.25,
+    "_why": "comment_bait = Mav's own winners (155-218K views, 33-79 comments per 1k; reply bot answers with the app). app_reveal = GoTall outliers that end on the app result. text_remake = GoTall outliers with no app (reach)."
+  }
 }

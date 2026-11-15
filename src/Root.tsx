@@ -24,7 +24,7 @@ const remakePreview: RemakeProps = {
 	faceLoopSec: 6,
 	durationSec: 8,
 	audio: 'refaudio/03.m4a',
-	texts: [{text: 'Be 6ft with long torso?\n\nOR\n\nBe 5’10 with short torso?', y: 643, size: 62, to: 4.47}],
+	texts: [{text: 'Be 6ft with long torso?\n\nOR\n\nBe 5’10 with short torso?', y: 642, w: 828, linePx: 91, to: 4.47}],
 	app: {image: 'app/result.png', atSec: 4.47, fadeSec: 0, header: 'Check your result ⬇️', headerY: 330, y: 1005, width: 640},
 	appAspect: 2340 / 1320,
 };
