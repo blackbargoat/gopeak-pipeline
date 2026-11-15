@@ -141,6 +141,7 @@ async function main() {
 			const id = `${account}-${Math.floor(i / ACCOUNTS.length) + 1}-ref${t.id}`;
 			const audioPool = [...new Set(byFmt(t.format).map((x) => x.audio))];
 			const texts = t.texts.map((x) => ({...x, text: caption(x.text, i, CFG.vary, t.alts || [])}));
+			const firstText = texts[0]?.text ?? t.table?.title ?? '';
 			const inputProps = {
 				face: path.relative(PUBLIC, job.face).split(path.sep).join('/'),
 				faceLoopSec: job.loopSec,
@@ -149,6 +150,7 @@ async function main() {
 				texts,
 				app: t.app,
 				screens: t.screens || [],
+				table: t.table || null,
 				appAspect: t.app ? aspectOf(t.app.image) : 1,
 				...footage(i, CFG.vary),
 			};
@@ -171,7 +173,7 @@ async function main() {
 			const file = path.join(outDir, `${id}.mp4`);
 			log(`render ${id} (ref @${t.ref}, ${(t.views / 1000).toFixed(0)}K views)`);
 			await renderMedia({composition, serveUrl, codec: 'h264', crf: 18, audioBitrate: '192k', outputLocation: file, inputProps});
-			manifest.variants.push({id, account, template: t.id, format: t.format, ref: t.ref, text: texts[0].text, audio: inputProps.audio, mirror: inputProps.mirror, file: path.relative(ROOT, file)});
+			manifest.variants.push({id, account, template: t.id, format: t.format, ref: t.ref, text: firstText, audio: inputProps.audio, mirror: inputProps.mirror, file: path.relative(ROOT, file)});
 		}
 		fs.writeFileSync(path.join(outDir, 'manifest.json'), JSON.stringify(manifest, null, 2));
 		log(`done → ${outDir}`);

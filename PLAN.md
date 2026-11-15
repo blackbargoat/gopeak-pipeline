@@ -43,3 +43,15 @@ Next formats to add (need new footage or the app):
 - 47-screen onboarding, result locked behind the paywall, $35/yr or $5/wk; reported ~$30K/mo (Nov 2025) → ~$150K/mo (Jan 2026); a Superwall-linked snapshot shows $60.4K MRR (Aug 2026).
 
 Sources: [Yuma Ueno](https://yumaueno.substack.com/p/this-20-year-old-grew-a-height-prediction), [Stork](https://www.stork.ai/blog/the-100kmonth-tiktok-app-idea), [SoFarBot](https://www.sofarbot.com/stories/gotall-michael-100000-monthly-ai-height-app), [Collab Only](https://collabonly.com/blog/posts/ugc-vs-professional-app-demo-video/) (vendor, unverified), [socialz.ai on reply videos](https://socialz.ai/blog/how-to-reply-to-a-comment-with-a-video-on-tiktok).
+
+## Instagram research, 2026-11-15 (#gotall, #heightprediction, #howtallwillibe; logged-out public pages + yt-dlp)
+| Likes | Comments | Account | Format |
+|---|---|---|---|
+| 294K | 22K | @elevatemethods | Animated explainer: stick figures + height bars, "How is he 6'1 at 16 (mom 5'6, dad 5'10)?", Michael Jordan example, ends "comment your age / send to the friend who's taller than his dad". 54 s, faceless |
+| 35K / 19K | 1.5K / 2.4K | @platecheck0 | Same animated style ("all his friends are taller at 15… but his genes say different") |
+| 27K | 4.5K | @tallmax.app | Static "Average height by age" chart (boys / girls 12–20) + app CTA, 8 s |
+| 441K views | 2.8K | @gotall.app | "If you are 5'8 at 15… You MIGHT be COOKED" + app ring card in the corner; caption "Send this to your short friend" |
+| 4.1M views | 118 | creator for @gotall.app | Skit: friends with cm labels → app exercise screen → doing it → labels grow to 190cm |
+| 3.7K | 21K | @mav.tallteen | "Flex your height with your age" (ours; #2 comments in the hashtag) |
+
+Built from this: c1 (cooked + corner card), c2 (bold claim + card), t1 (CDC height-by-age chart, real data from the app). Next: animated explainer (motion graphics).

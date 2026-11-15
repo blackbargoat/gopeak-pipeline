@@ -18,6 +18,7 @@ export type RemakeApp = {
 	headerW?: number;
 	headerLinePx?: number;
 	pop?: boolean; // springs in (small card peek) instead of a hard cut
+	x?: number; // card center x (default: centered); GoTall's corner card sits right of center
 	y: number;
 	width: number;
 };
@@ -32,6 +33,8 @@ export type RemakeProps = {
 	// Per-use variation so each trial reel of the same clip is its own file (mirror, crop, speed, grade).
 	// App screen recordings shown as a phone-sized card over the dimmed face (screen payoff format).
 	screens?: {src: string; from: number; to: number; header?: string | null; headerY?: number; headerW?: number; size?: number; width?: number; y?: number}[];
+	// Data table overlay (e.g. CDC median height by age), shown for the whole video.
+	table?: {title: string; cols: string[]; rows: string[][]; y: number; rowPx?: number; width?: number};
 	mirror?: boolean;
 	zoom?: number; // 1.00-1.08
 	rate?: number; // 0.96-1.04
@@ -96,6 +99,54 @@ const NativeText: React.FC<{text: string; y: number; w: number; linePx: number; 
 	);
 };
 
+const COLC = ['rgba(255,255,255,0.55)', '#2f8cff', '#ff6b5e'];
+const DataTable: React.FC<{t: NonNullable<RemakeProps['table']>}> = ({t}) => {
+	const ready = useFontsReady();
+	if (!ready) return null;
+	const rowPx = t.rowPx ?? 72, w = t.width ?? 820;
+	return (
+		<>
+			<NativeText text={t.title} y={t.y - 70} w={700} linePx={80} size={64} />
+			<div
+				style={{
+					position: 'absolute',
+					left: (1080 - w) / 2,
+					top: t.y,
+					width: w,
+					padding: '18px 34px',
+					borderRadius: 36,
+					background: 'rgba(12,12,14,0.86)',
+					fontFamily: CLASSIC_STACK,
+					fontWeight: 600,
+					color: '#fff',
+				}}
+			>
+				{[t.cols, ...t.rows].map((r, i) => (
+					<div
+						key={i}
+						style={{
+							display: 'grid',
+							gridTemplateColumns: '1fr 1.4fr 1.4fr',
+							alignItems: 'center',
+							height: rowPx,
+							borderTop: i > 1 ? '2px solid rgba(255,255,255,0.08)' : 'none',
+							fontSize: i === 0 ? 34 : 46,
+							letterSpacing: i === 0 ? 1 : -0.5,
+							textTransform: i === 0 ? 'uppercase' : 'none',
+						}}
+					>
+						{r.map((c, j) => (
+							<span key={j} style={{textAlign: j === 0 ? 'left' : 'center', color: i === 0 ? COLC[j] : j === 0 ? 'rgba(255,255,255,0.6)' : '#fff'}}>
+								{c}
+							</span>
+						))}
+					</div>
+				))}
+			</div>
+		</>
+	);
+};
+
 export const Remake: React.FC<RemakeProps> = (p) => {
 	const frame = useCurrentFrame();
 	const {fps} = useVideoConfig();
@@ -126,6 +177,7 @@ export const Remake: React.FC<RemakeProps> = (p) => {
 				<OffthreadVideo src={staticFile(p.face)} muted playbackRate={rate} style={faceStyle} />
 			</Loop>
 			<Audio src={staticFile(p.audio)} />
+			{p.table ? <DataTable t={p.table} /> : null}
 			{(p.screens ?? []).map((sc, i) => {
 				const w = sc.width ?? 560;
 				const h = (w * 2868) / 1320;
@@ -172,7 +224,7 @@ export const Remake: React.FC<RemakeProps> = (p) => {
 						src={staticFile(app.image)}
 						style={{
 							position: 'absolute',
-							left: (1080 - app.width) / 2,
+							left: (app.x ?? 540) - app.width / 2,
 							top: app.y - appH / 2,
 							width: app.width,
 							height: appH,
