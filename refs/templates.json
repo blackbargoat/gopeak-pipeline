@@ -648,11 +648,12 @@
         "atSec": 4.0,
         "fadeSec": 0,
         "pop": false,
-        "header": null,
-        "headerY": 0,
-        "x": 700,
-        "y": 1030,
-        "width": 460
+        "header": "comment your height\nfor a prediction",
+        "headerY": 1413,
+        "x": 540,
+        "y": 1000,
+        "width": 520,
+        "headerW": 600
       }
     },
     {
@@ -664,7 +665,7 @@
       "audio": "refaudio/ig_DVQCFQWEw8J.m4a",
       "texts": [
         {
-          "text": "If you are 5’7 at 15, you\nhave an EXTREMELY high\nchance of being 6 foot+",
+          "text": "If you are 5’7 at 15, you\nhave an EXTREMELY high\nchance of being 6ft+",
           "y": 460,
           "w": 820,
           "linePx": 84
@@ -675,89 +676,12 @@
         "atSec": 4.0,
         "fadeSec": 0,
         "pop": false,
-        "header": null,
-        "headerY": 0,
+        "header": "comment your height\nfor a prediction",
+        "headerY": 1413,
         "x": 540,
-        "y": 1120,
-        "width": 560
-      }
-    },
-    {
-      "id": "t1",
-      "ref": "tallmax.app/DZXsyAvOw_X (IG, 27K likes, 4.5K comments)",
-      "views": 27000,
-      "format": "bait_peek",
-      "durationSec": 8.3,
-      "audio": "refaudio/ig_DZXsyAvOw_X.m4a",
-      "texts": [],
-      "table": {
-        "title": "Average height by age",
-        "cols": [
-          "age",
-          "boys",
-          "girls"
-        ],
-        "rows": [
-          [
-            "12",
-            "4’11”",
-            "5’0”"
-          ],
-          [
-            "13",
-            "5’2”",
-            "5’2”"
-          ],
-          [
-            "14",
-            "5’5”",
-            "5’3”"
-          ],
-          [
-            "15",
-            "5’7”",
-            "5’4”"
-          ],
-          [
-            "16",
-            "5’8”",
-            "5’4”"
-          ],
-          [
-            "17",
-            "5’9”",
-            "5’4”"
-          ],
-          [
-            "18",
-            "5’9”",
-            "5’4”"
-          ],
-          [
-            "19",
-            "5’10”",
-            "5’4”"
-          ],
-          [
-            "20",
-            "5’10”",
-            "5’4”"
-          ]
-        ],
-        "y": 400,
-        "rowPx": 70,
-        "width": 820
-      },
-      "app": {
-        "image": "app/home_peek.png",
-        "atSec": 4.0,
-        "fadeSec": 0,
-        "pop": false,
-        "header": "comment your age for a prediction",
-        "headerY": 1600,
-        "headerW": 760,
-        "y": 1360,
-        "width": 250
+        "y": 1000,
+        "width": 520,
+        "headerW": 600
       }
     }
   ],
