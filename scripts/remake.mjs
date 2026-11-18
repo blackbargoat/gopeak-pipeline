@@ -138,7 +138,8 @@ async function main() {
 	const best = pool.find((t) => learned?.templates?.[t.id])?.format || 'comment_bait';
 	for (const job of jobs) {
 		// different starting template per clip (stable for a given file), so 3 clips make 3 different sets of trials
-		const clipSpin = [...job.jobId].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % 7;
+		// --spin N (the clip's upload number, from worker.mjs) guarantees back-to-back uploads differ; hash as fallback
+		const clipSpin = args.spin != null ? Number(args.spin) : [...job.jobId].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % 7;
 		// Trials use the other formats, so one clip never makes 5 near-identical videos (and the same on-screen
 		// text can't post back to back on an account: pipe_next_slot keeps a text family 3 days apart).
 		const trialPlan = (n) => {

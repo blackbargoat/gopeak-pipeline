@@ -79,7 +79,9 @@ async function run(clip) {
 	const job = path.basename(file).replace(/\.[^.]+$/, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 24);
 	const wants = clip.wants || [];
 	const fmts = wants.filter((w) => FORMATS.has(w)), ids = wants.filter((w) => !FORMATS.has(w));
-	const args = ['scripts/remake.mjs', file];
+	// upload number: how many clips came before this one, so each clip starts the template/audio rotation one step on
+	const before = await rest('GET', `pipe_clips?select=id&created_at=lt.${encodeURIComponent(clip.created_at)}&upload_name=not.is.null`);
+	const args = ['scripts/remake.mjs', file, '--spin', String(before.length)];
 	if (ids.length) args.push('--templates', ids.join(','));
 	else if (fmts.length) args.push('--formats', fmts.join(','));
 	log('editing:', args.slice(2).join(' ') || 'learned mix');
