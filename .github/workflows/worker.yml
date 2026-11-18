@@ -49,6 +49,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 6
     steps:
+      - uses: actions/checkout@v4
+        with: { sparse-checkout: scripts }
+      - run: node scripts/cleanup.mjs || true
+        env: { SUPABASE_SERVICE_KEY: "${{ secrets.SUPABASE_SERVICE_KEY }}" }
       - run: sleep 240 && gh workflow run worker.yml -R ${{ github.repository }}
         env:
           GH_TOKEN: ${{ github.token }}
