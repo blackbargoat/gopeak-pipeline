@@ -6,6 +6,7 @@ on:
     - cron: "*/5 * * * *"
   workflow_dispatch:
 concurrency: { group: worker, cancel-in-progress: false }
+permissions: { contents: read, actions: write }
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -40,3 +41,14 @@ jobs:
         env: { SUPABASE_SERVICE_KEY: "${{ secrets.SUPABASE_SERVICE_KEY }}" }
       - run: node scripts/worker.mjs --max 4
         env: { SUPABASE_SERVICE_KEY: "${{ secrets.SUPABASE_SERVICE_KEY }}" }
+  # GitHub's cron skips most runs, so the workflow keeps itself going: start the next check ~4 min after this one.
+  # Public repo, so runner minutes are free. The cron above restarts the chain if it ever breaks.
+  chain:
+    needs: [check, edit]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - run: sleep 240 && gh workflow run worker.yml -R ${{ github.repository }}
+        env:
+          GH_TOKEN: ${{ github.token }}
