@@ -52,7 +52,8 @@ for (const job of jobs) {
 		const thumb_url = await upload(jpg, `${job}/${v.id}.jpg`, 'image/jpeg');
 		const fmt = FORMATS.has(v.format) ? v.format : 'other';
 		// A feed post never repeats a template already on that account's feed in the last 3 weeks: it becomes a trial reel
-		let trial = v.trial ?? true;
+		// Everything starts as a trial reel (Maverick, 2026-11-17); Instagram graduates winners to the feed itself.
+		let trial = true;
 		if (!trial && v.template) {
 			const since = new Date(Date.now() - 21 * 864e5).toISOString();
 			const r = await fetch(`${URL_}/rest/v1/pipe_posts?select=id&account=eq.${v.account}&trial=eq.false&status=in.(rendered,scheduled,posting,posted)&created_at=gt.${since}&variant=like.*-ref${v.template}*`, {headers: H});
