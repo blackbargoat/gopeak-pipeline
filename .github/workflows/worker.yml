@@ -28,7 +28,18 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm }
-      - run: command -v ffmpeg || (sudo apt-get update -q && sudo apt-get install -yq ffmpeg)
+      # ffmpeg from a prebuilt static release, cached between runs (apt mirrors sometimes took 5+ min)
+      - uses: actions/cache@v4
+        with: { path: ~/ffmpeg-bin, key: ffmpeg-static-v1 }
+      - run: |
+          if [ ! -x ~/ffmpeg-bin/ffmpeg ]; then
+            mkdir -p ~/ffmpeg-bin && cd /tmp
+            curl -sSL --retry 3 -o ff.tar.xz https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz \
+              && tar xf ff.tar.xz && cp ffmpeg-*-static/ffmpeg ffmpeg-*-static/ffprobe ~/ffmpeg-bin/ \
+              || (sudo apt-get update -q && sudo apt-get install -yq ffmpeg && ln -sf "$(command -v ffmpeg)" ~/ffmpeg-bin/ffmpeg && ln -sf "$(command -v ffprobe)" ~/ffmpeg-bin/ffprobe)
+          fi
+          echo "$HOME/ffmpeg-bin" >> "$GITHUB_PATH"
+          ~/ffmpeg-bin/ffmpeg -version | head -1
       - run: sudo apt-get install -yq fonts-noto-color-emoji libnss3 libgbm1 libasound2t64 >/dev/null 2>&1 || true
       - run: pip install -q -U yt-dlp
       - run: npm ci --no-audit --no-fund
