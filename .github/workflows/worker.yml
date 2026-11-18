@@ -1,0 +1,39 @@
+name: Edit uploaded clips
+# Clips uploaded in HQ (pipeline tab) -> edited variants back in HQ for approval. Checks every 5 min;
+# the check is one tiny request, the real job only runs when something is queued.
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+concurrency: { group: worker, cancel-in-progress: false }
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    outputs:
+      n: ${{ steps.q.outputs.n }}
+    steps:
+      - id: q
+        run: |
+          n=$(curl -s -m 20 -X POST https://etdbjahwegsmuelcawgf.supabase.co/rest/v1/rpc/pipe_inbox_count \
+            -H "apikey: sb_publishable_p8exB2dS5lpdz-p1chueJA_n9zRQdnG" -H "content-type: application/json" -d '{}')
+          echo "queued: $n"; echo "n=${n:-0}" >> "$GITHUB_OUTPUT"
+  edit:
+    needs: check
+    if: needs.check.outputs.n != '0'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: command -v ffmpeg || (sudo apt-get update -q && sudo apt-get install -yq ffmpeg)
+      - run: sudo apt-get install -yq fonts-noto-color-emoji libnss3 libgbm1 libasound2t64 >/dev/null 2>&1 || true
+      - run: npm ci --no-audit --no-fund
+      - uses: actions/cache@v4
+        with: { path: public/fonts/AppleColorEmoji-Linux.ttf, key: emoji-font-v1 }
+      - run: node scripts/setup.mjs
+      - run: node scripts/assets.mjs pull
+        env: { SUPABASE_SERVICE_KEY: "${{ secrets.SUPABASE_SERVICE_KEY }}" }
+      - run: node scripts/worker.mjs --max 4
+        env: { SUPABASE_SERVICE_KEY: "${{ secrets.SUPABASE_SERVICE_KEY }}" }

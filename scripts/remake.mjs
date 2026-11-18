@@ -105,7 +105,10 @@ async function main() {
 	// Settings come from config.json (edited from HQ's agent panels). Mix weights may be updated by learn.mjs.
 	const CFG = JSON.parse(fs.readFileSync(path.join(ROOT, 'config.json'), 'utf8'));
 	const learned = fs.existsSync(path.join(ROOT, 'learned.json')) ? JSON.parse(fs.readFileSync(path.join(ROOT, 'learned.json'), 'utf8')) : null;
-	const mix = CFG.learn && learned?.mix ? learned.mix : CFG.mix;
+	// --formats comment_bait,bait_peek limits this run to those formats (split evenly), e.g. from HQ's upload sheet
+	const onlyFmts = args.formats ? String(args.formats).split(',').filter(Boolean) : null;
+	const baseMix = CFG.learn && learned?.mix ? learned.mix : CFG.mix;
+	const mix = onlyFmts ? Object.fromEntries(onlyFmts.map((f) => [f, 1 / onlyFmts.length])) : baseMix;
 	const nUses = Math.min(Number(args.per ?? CFG.usesPerClip), ACCOUNTS.length * CFG.perAccountMax);
 
 	// Which formats this clip gets: largest-remainder split of nUses by the mix, comment bait first so each
