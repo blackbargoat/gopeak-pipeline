@@ -38,6 +38,17 @@ async function claim() {
 async function download(clip) {
 	const r = await fetch(`${URL_}/storage/v1/object/list/pipe-inbox`, {method: 'POST', headers: {...H, 'content-type': 'application/json'}, body: JSON.stringify({prefix: clip.id, limit: 100, sortBy: {column: 'name', order: 'asc'}})});
 	const parts = (await r.json()).map((f) => f.name).filter((n) => n.startsWith('part-')).sort();
+	if (!parts.length) {
+		// Remaking a clip whose raw upload was already cleaned up: use the trimmed face loop saved from its first edit
+		const fr = await fetch(`${URL_}/storage/v1/object/pipe-assets/faces/${clip.id}.mp4`, {headers: H});
+		if (fr.ok) {
+			fs.mkdirSync(path.join(ROOT, 'input'), {recursive: true});
+			const file = path.join(ROOT, 'input', `up-${clip.id.slice(0, 8)}.mp4`);
+			fs.writeFileSync(file, Buffer.from(await fr.arrayBuffer()));
+			log(`${clip.upload_name}: remaking from the saved face clip`);
+			return {file, parts: []};
+		}
+	}
 	if (!parts.length || (clip.parts && parts.length < clip.parts)) throw new Error(`upload incomplete (${parts.length}/${clip.parts ?? '?'} parts)`);
 	const ext = (path.extname(clip.upload_name || '') || '.mov').toLowerCase();
 	fs.mkdirSync(path.join(ROOT, 'input'), {recursive: true});
@@ -84,7 +95,7 @@ async function run(clip) {
 	// keep the trimmed face loop so approved ideas can be made later without new footage
 	const face = path.join(ROOT, 'public/jobs', job, 'face.mp4');
 	if (fs.existsSync(face)) await putAsset(face, `faces/${clip.id}.mp4`, 'video/mp4').catch((e) => log('face not saved', e.message));
-	await fetch(`${URL_}/storage/v1/object/pipe-inbox`, {method: 'DELETE', headers: {...H, 'content-type': 'application/json'}, body: JSON.stringify({prefixes: parts.map((p) => `${clip.id}/${p}`)})});
+	if (parts.length) await fetch(`${URL_}/storage/v1/object/pipe-inbox`, {method: 'DELETE', headers: {...H, 'content-type': 'application/json'}, body: JSON.stringify({prefixes: parts.map((p) => `${clip.id}/${p}`)})});
 	log(`done: ${clip.upload_name} -> out/${job}`);
 }
 
