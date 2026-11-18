@@ -1,41 +1,128 @@
 {
   "mix": {
-    "comment_bait": 0.398,
-    "bait_peek": 0.221,
-    "app_reveal": 0.204,
-    "text_remake": 0.177
+    "comment_bait": 0.443,
+    "bait_peek": 0.399,
+    "app_reveal": 0.08,
+    "text_remake": 0.079
   },
   "stats": {
     "comment_bait": {
-      "posts": 13,
-      "weight": 6.5,
-      "medianViews": 4228,
-      "commentsPer1k": 49.3,
-      "score": 14653.045704693906
+      "posts": 15,
+      "weight": 8.5,
+      "medianViews": 6816,
+      "bestViews": 266444,
+      "commentsPer1k": 49.6,
+      "score": 23732
     },
     "bait_peek": {
-      "posts": 0,
-      "weight": 0,
-      "medianViews": 0,
-      "commentsPer1k": 0,
-      "score": null
+      "posts": 3,
+      "weight": 3,
+      "medianViews": 12144,
+      "bestViews": 19360,
+      "commentsPer1k": 30,
+      "score": 30337
     },
     "app_reveal": {
-      "posts": 17,
-      "weight": 8.5,
-      "medianViews": 2654,
-      "commentsPer1k": 9.4,
-      "score": 3905.2412523020257
+      "posts": 19,
+      "weight": 10.5,
+      "medianViews": 2538,
+      "bestViews": 8349,
+      "commentsPer1k": 9.1,
+      "score": 3687
     },
     "text_remake": {
-      "posts": 3,
-      "weight": 1.5,
-      "medianViews": 1818,
-      "commentsPer1k": 1.7,
-      "score": null
+      "posts": 4,
+      "weight": 2,
+      "medianViews": 1877,
+      "bestViews": 2371,
+      "commentsPer1k": 1.6,
+      "score": 2027
     }
   },
-  "templates": {},
-  "basis": "33 videos (0 matched exactly, rest by caption)",
-  "updatedAt": "2026-11-15T16:22:57.161Z"
+  "templates": {
+    "c1": {
+      "posts": 1,
+      "weight": 1,
+      "medianViews": 12144,
+      "bestViews": 12144,
+      "commentsPer1k": 39.3,
+      "score": 35994
+    },
+    "f3": {
+      "posts": 1,
+      "weight": 1,
+      "medianViews": 266444,
+      "bestViews": 266444,
+      "commentsPer1k": 47.7,
+      "score": 901844
+    },
+    "p08": {
+      "posts": 2,
+      "weight": 2,
+      "medianViews": 19360,
+      "bestViews": 19360,
+      "commentsPer1k": 24.8,
+      "score": 43339
+    },
+    "f2": {
+      "posts": 1,
+      "weight": 1,
+      "medianViews": 80709,
+      "bestViews": 80709,
+      "commentsPer1k": 59.5,
+      "score": 321009
+    },
+    "07": {
+      "posts": 1,
+      "weight": 1,
+      "medianViews": 1202,
+      "bestViews": 1202,
+      "commentsPer1k": 1.7,
+      "score": 1302
+    },
+    "s1": {
+      "posts": 1,
+      "weight": 1,
+      "medianViews": 2020,
+      "bestViews": 2020,
+      "commentsPer1k": 7.4,
+      "score": 2770
+    },
+    "04": {
+      "posts": 1,
+      "weight": 1,
+      "medianViews": 1992,
+      "bestViews": 1992,
+      "commentsPer1k": 4,
+      "score": 2392
+    }
+  },
+  "audios": {
+    "original sound - ren": {
+      "posts": 2,
+      "weight": 2,
+      "medianViews": 19360,
+      "bestViews": 19360,
+      "commentsPer1k": 24.8,
+      "score": 43339
+    },
+    "оригинальный звук - Sinekrey": {
+      "posts": 1,
+      "weight": 1,
+      "medianViews": 1202,
+      "bestViews": 1202,
+      "commentsPer1k": 1.7,
+      "score": 1302
+    },
+    "som original - USE HEADSET": {
+      "posts": 1,
+      "weight": 1,
+      "medianViews": 1992,
+      "bestViews": 1992,
+      "commentsPer1k": 4,
+      "score": 2392
+    }
+  },
+  "basis": "42 videos (8 pipeline posts matched exactly, rest by caption)",
+  "updatedAt": "2026-11-18T00:33:43.259Z"
 }

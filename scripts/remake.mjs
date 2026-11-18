@@ -123,7 +123,10 @@ async function main() {
 		for (const k of keys.sort((x, y) => (x === 'comment_bait' ? -1 : y === 'comment_bait' ? 1 : 0))) for (let i = 0; i < out[k]; i++) seq.push(k);
 		return seq;
 	};
-	const pool = (wanted ? templates.filter((t) => wanted.includes(t.id)) : templates).sort((x, y) => y.views - x.views);
+	// Rank templates by our own results when we have them; untested ones use the reference's views scaled down
+	// (a GoTall outlier's views aren't comparable to ours), so proven templates come first.
+	const rank = (t) => learned?.templates?.[t.id]?.score ?? t.views * 0.05;
+	const pool = (wanted ? templates.filter((t) => wanted.includes(t.id)) : templates).sort((x, y) => rank(y) - rank(x));
 	const byFmt = (f) => (pool.filter((t) => t.format === f).length ? pool.filter((t) => t.format === f) : pool);
 	for (const job of jobs) {
 		const seq = wanted ? pool.slice(0, nUses).map((t) => t.format) : formatPlan(nUses);

@@ -35,5 +35,7 @@ jobs:
       - run: node scripts/setup.mjs
       - run: node scripts/assets.mjs pull
         env: { SUPABASE_SERVICE_KEY: "${{ secrets.SUPABASE_SERVICE_KEY }}" }
+      - run: node scripts/learn.mjs || echo "learn failed, using last mix"
+        env: { SUPABASE_SERVICE_KEY: "${{ secrets.SUPABASE_SERVICE_KEY }}" }
       - run: node scripts/worker.mjs --max 4
         env: { SUPABASE_SERVICE_KEY: "${{ secrets.SUPABASE_SERVICE_KEY }}" }
