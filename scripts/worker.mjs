@@ -58,6 +58,11 @@ async function uploadPublic(file, key, type) {
 	return `${URL_}/storage/v1/object/public/pipe/${key}`;
 }
 
+async function putAsset(file, key, type) {
+	const r = await fetch(`${URL_}/storage/v1/object/pipe-assets/${key}`, {method: 'POST', headers: {...H, 'content-type': type, 'x-upsert': 'true'}, body: fs.readFileSync(file)});
+	if (!r.ok) throw new Error(`asset ${key}: ${r.status}`);
+}
+
 async function run(clip) {
 	const {file, parts} = await download(clip);
 	const job = path.basename(file).replace(/\.[^.]+$/, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 24);
@@ -76,8 +81,85 @@ async function run(clip) {
 	const thumb_url = await uploadPublic(thumb, `${job}/_clip.jpg`, 'image/jpeg');
 	const dur = Number(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', file]).toString().trim()) || null;
 	await patchClip(clip.id, {status: 'ready', thumb_url, duration_sec: dur});
+	// keep the trimmed face loop so approved ideas can be made later without new footage
+	const face = path.join(ROOT, 'public/jobs', job, 'face.mp4');
+	if (fs.existsSync(face)) await putAsset(face, `faces/${clip.id}.mp4`, 'video/mp4').catch((e) => log('face not saved', e.message));
 	await fetch(`${URL_}/storage/v1/object/pipe-inbox`, {method: 'DELETE', headers: {...H, 'content-type': 'application/json'}, body: JSON.stringify({prefixes: parts.map((p) => `${clip.id}/${p}`)})});
 	log(`done: ${clip.upload_name} -> out/${job}`);
+}
+
+// ---------- ideas approved in HQ ("make it") ----------
+const EXTRA = path.join(ROOT, 'refs/extra.json');
+async function writeExtra() {
+	const done = await rest('GET', 'pipe_requests?select=template&status=eq.ready&template=not.is.null');
+	fs.writeFileSync(EXTRA, JSON.stringify(done.map((d) => d.template), null, 1));
+}
+async function claimRequest() {
+	const stale = new Date(Date.now() - 45 * 60e3).toISOString();
+	const [r] = await rest('GET', `pipe_requests?select=*&or=(status.eq.approved,and(status.eq.making,started_at.lt.${stale}))&order=created_at&limit=1`);
+	if (!r) return null;
+	const got = await rest('PATCH', `pipe_requests?id=eq.${r.id}&status=eq.${r.status}`, {status: 'making', started_at: new Date().toISOString(), error: null});
+	return got[0] || null;
+}
+const patchReq = (id, b) => rest('PATCH', `pipe_requests?id=eq.${id}`, {...b, updated_at: new Date().toISOString()});
+
+// Turns a reference video into a template: its audio (yt-dlp), its on-screen text, timing from the audio length.
+function buildTemplate(req, audioRel, audioSec) {
+	const o = req.idea || {};
+	const text = String(o.on_screen_text || o.hook_paraphrase || '').replace(/[\u2014\u2013]/g, ', ').replace(/\s*👇+/gu, '').trim();
+	if (!text) throw new Error('this idea has no on-screen text to copy');
+	const lines = text.split('\n');
+	const widest = Math.max(...lines.map((l) => [...l].length));
+	const comment = /comment/i.test(text);
+	return {
+		id: `r${req.id.slice(0, 6)}`, ref: `${o.account || 'idea'} (approved in HQ)`, views: o.views || 0,
+		durationSec: +Math.min(12, Math.max(6, Math.min(audioSec, Number(o.length_sec) || audioSec))).toFixed(2),
+		audio: audioRel,
+		texts: [{text, y: lines.length > 6 ? 900 : 760, w: Math.max(520, Math.min(860, widest * 34)), linePx: 88}],
+		app: null, format: comment ? 'comment_bait' : 'text_remake',
+		sound: o.audio_url ? {name: o.audio_name || 'original sound', url: o.audio_url} : null,
+	};
+}
+
+async function make(req) {
+	// newest saved faces first
+	const r = await fetch(`${URL_}/storage/v1/object/list/pipe-assets`, {method: 'POST', headers: {...H, 'content-type': 'application/json'}, body: JSON.stringify({prefix: 'faces', limit: 50, sortBy: {column: 'created_at', order: 'desc'}})});
+	const faces = (await r.json()).map((f) => f.name).filter((n) => n.endsWith('.mp4'));
+	if (!faces.length) { await patchReq(req.id, {status: 'needs_clip', error: 'upload a deadpan clip first'}); log('no clips to use'); return; }
+	// audio from the reference
+	const rel = `refaudio/req-${req.id.slice(0, 8)}.m4a`, dest = path.join(ROOT, 'public', rel);
+	if (!fs.existsSync(dest)) {
+		execFileSync('yt-dlp', ['-q', '--no-warnings', '-x', '--audio-format', 'm4a', '-o', dest.replace(/\.m4a$/, '.%(ext)s'), req.url], {stdio: 'inherit', timeout: 240e3});
+		await putAsset(dest, `public/${rel}`, 'audio/mp4');
+	}
+	const audioSec = Number(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', dest]).toString().trim()) || 8;
+	const t = buildTemplate(req, rel, audioSec);
+	await patchReq(req.id, {template: t});
+	await writeExtra();
+	const list = JSON.parse(fs.readFileSync(EXTRA, 'utf8')).filter((x) => x.id !== t.id);
+	fs.writeFileSync(EXTRA, JSON.stringify([...list, t], null, 1));
+	// render on the newest face: one trial reel per account
+	const faceKey = faces[0];
+	const file = path.join(ROOT, 'input', `idea-${req.id.slice(0, 8)}.mp4`);
+	fs.mkdirSync(path.dirname(file), {recursive: true});
+	const fr = await fetch(`${URL_}/storage/v1/object/pipe-assets/faces/${faceKey}`, {headers: H});
+	if (!fr.ok) throw new Error(`face ${faceKey}: ${fr.status}`);
+	fs.writeFileSync(file, Buffer.from(await fr.arrayBuffer()));
+	execFileSync('node', ['scripts/remake.mjs', file, '--templates', t.id, '--per', '2', '--trial-only'], {cwd: ROOT, stdio: 'inherit'});
+	const job = path.basename(file).replace(/\.[^.]+$/, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 24);
+	execFileSync('node', ['scripts/push-hq.mjs', job], {cwd: ROOT, stdio: 'inherit', env: process.env});
+	const [clip] = await rest('GET', `pipe_clips?select=id&source_name=eq.${encodeURIComponent(`${job}/${path.basename(file)}`)}`);
+	await patchReq(req.id, {status: 'ready', clip_id: clip?.id ?? null});
+	log(`idea made: ${req.url}`);
+}
+
+await writeExtra().catch((e) => log('extra templates not loaded', e.message));
+for (let i = 0; i < max; i++) {
+	const req = await claimRequest();
+	if (!req) break;
+	log(`idea ${req.url}`);
+	try { await make(req); }
+	catch (e) { console.error(e); await patchReq(req.id, {status: 'failed', error: String(e.message || e).slice(0, 900)}).catch(() => {}); }
 }
 
 for (let i = 0; i < max; i++) {

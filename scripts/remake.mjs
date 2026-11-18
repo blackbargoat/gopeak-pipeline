@@ -91,6 +91,9 @@ async function main() {
 		process.exit(1);
 	}
 	const {templates} = JSON.parse(fs.readFileSync(path.join(ROOT, 'refs/templates.json'), 'utf8'));
+	// Templates built from ideas approved in HQ (written by worker.mjs from pipe_requests)
+	const extra = path.join(ROOT, 'refs/extra.json');
+	if (fs.existsSync(extra)) templates.push(...JSON.parse(fs.readFileSync(extra, 'utf8')).filter((t) => !templates.some((x) => x.id === t.id)));
 	const wanted = args.templates ? String(args.templates).split(',') : null;
 
 	log('bundling…');
@@ -111,7 +114,7 @@ async function main() {
 	const mix = onlyFmts ? Object.fromEntries(onlyFmts.map((f) => [f, 1 / onlyFmts.length])) : baseMix;
 	// Every clip: FEED normal posts (the proven winning format, untouched look) + TRIALS trial reels
 	// (slowed down, recolored, different caption/audio so each is its own upload).
-	const FEED = Number(CFG.feedPerClip ?? 2), TRIALS = Number(CFG.trialsPerClip ?? 3);
+	const FEED = args['trial-only'] ? 0 : Number(CFG.feedPerClip ?? 2), TRIALS = Number(CFG.trialsPerClip ?? 3);
 	const nUses = args.per ? Number(args.per) : FEED + TRIALS;
 	const best = Object.entries(learned?.stats || {}).filter(([f, s]) => s.score != null && mix[f] != null).sort((a, b) => b[1].score - a[1].score)[0]?.[0] || 'comment_bait';
 
@@ -133,7 +136,7 @@ async function main() {
 	const pool = (wanted ? templates.filter((t) => wanted.includes(t.id)) : templates).sort((x, y) => rank(y) - rank(x));
 	const byFmt = (f) => (pool.filter((t) => t.format === f).length ? pool.filter((t) => t.format === f) : pool);
 	for (const job of jobs) {
-		const seq = wanted ? pool.slice(0, nUses).map((t) => t.format) : onlyFmts ? formatPlan(nUses) : [...Array(Math.min(FEED, nUses)).fill(best), ...formatPlan(Math.max(0, nUses - FEED))];
+		const seq = wanted ? [...Array(nUses)].map((_, i) => pool[i % pool.length].format) : onlyFmts ? formatPlan(nUses) : [...Array(Math.min(FEED, nUses)).fill(best), ...formatPlan(Math.max(0, nUses - FEED))];
 		const seen = {};
 		const picks = seq.map((f, i) => {
 			const list = byFmt(f);

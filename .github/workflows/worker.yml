@@ -29,6 +29,7 @@ jobs:
         with: { node-version: 22, cache: npm }
       - run: command -v ffmpeg || (sudo apt-get update -q && sudo apt-get install -yq ffmpeg)
       - run: sudo apt-get install -yq fonts-noto-color-emoji libnss3 libgbm1 libasound2t64 >/dev/null 2>&1 || true
+      - run: pip install -q -U yt-dlp
       - run: npm ci --no-audit --no-fund
       - uses: actions/cache@v4
         with: { path: public/fonts/AppleColorEmoji-Linux.ttf, key: emoji-font-v1 }

@@ -10,3 +10,4 @@ refs/*.mp4
 public/refaudio/
 public/fonts/ProximaNova-Semibold.*
 supabase/.temp/
+refs/extra.json
