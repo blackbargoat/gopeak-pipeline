@@ -137,7 +137,18 @@ async function main() {
 	const byFmt = (f) => (pool.filter((t) => t.format === f).length ? pool.filter((t) => t.format === f) : pool);
 	const best = pool.find((t) => learned?.templates?.[t.id])?.format || 'comment_bait';
 	for (const job of jobs) {
-		const seq = wanted ? [...Array(nUses)].map((_, i) => pool[i % pool.length].format) : onlyFmts ? formatPlan(nUses) : [...Array(Math.min(FEED, nUses)).fill(best), ...formatPlan(Math.max(0, nUses - FEED))];
+		// Trials use the other formats, so one clip never makes 5 near-identical videos (and the same on-screen
+		// text can't post back to back on an account: pipe_next_slot keeps a text family 3 days apart).
+		const trialPlan = (n) => {
+			const rest = Object.fromEntries(Object.entries(mix).filter(([f]) => f !== best));
+			const tot = Object.values(rest).reduce((a, b) => a + b, 0) || 1;
+			const keys = Object.keys(rest), raw = keys.map((k) => [k, (rest[k] / tot) * n]);
+			const out = Object.fromEntries(raw.map(([k, v]) => [k, Math.floor(v)]));
+			let left = n - Object.values(out).reduce((a, b) => a + b, 0);
+			for (const [k] of raw.sort((x, y) => (y[1] % 1) - (x[1] % 1))) if (left-- > 0) out[k]++;
+			return keys.flatMap((k) => Array(out[k]).fill(k));
+		};
+		const seq = wanted ? [...Array(nUses)].map((_, i) => pool[i % pool.length].format) : onlyFmts ? formatPlan(nUses) : [...Array(Math.min(FEED, nUses)).fill(best), ...trialPlan(Math.max(0, nUses - FEED))];
 		const seen = {};
 		const picks = seq.map((f, i) => {
 			const list = byFmt(f);
