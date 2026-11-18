@@ -153,14 +153,23 @@ async function main() {
 		};
 		const seq = wanted ? [...Array(nUses)].map((_, i) => pool[i % pool.length].format) : onlyFmts ? formatPlan(nUses) : [...Array(Math.min(FEED, nUses)).fill(best), ...trialPlan(Math.max(0, nUses - FEED))];
 		const seen = {};
+		const usedText = new Set();
 		const picks = seq.map((f, i) => {
 			const list = byFmt(f);
 			seen[f] = (seen[f] ?? -1) + 1;
 			// feed posts always take the best templates; trial reels rotate per clip so clips don't repeat each other
 			const spin = i < FEED ? 0 : clipSpin;
-			const t = wanted ? pool[i % pool.length] : list[(job.k * 2 + spin + seen[f]) % list.length];
+			let t = wanted ? pool[i % pool.length] : list[(job.k * 2 + spin + seen[f]) % list.length];
+			// never two videos of one clip with the same on-screen text (the database refuses duplicate captions per clip):
+			// e.g. a bait + peek legend shares its text with the comment-bait legend. Try the next template instead.
+			const first = (x) => (x.texts?.[0]?.text ?? x.table?.title ?? '').toLowerCase().replace(/[^a-z0-9]/g, '');
+			for (let k = 1; !wanted && usedText.has(first(t)) && k <= pool.length; k++) {
+				const alt = [...list, ...pool][(job.k * 2 + spin + seen[f] + k) % (list.length + pool.length)];
+				if (alt) t = alt;
+			}
+			usedText.add(first(t));
 			const reuse = Math.floor(seen[f] / list.length); // >0 only when a format has fewer templates than uses
-			return {t, f, vi: i, reuse};
+			return {t, f: t.format, vi: i, reuse};
 		});
 		const outDir = path.join(ROOT, 'out', job.jobId);
 		fs.mkdirSync(outDir, {recursive: true});
