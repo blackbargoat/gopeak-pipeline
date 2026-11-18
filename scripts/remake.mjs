@@ -116,7 +116,7 @@ async function main() {
 	// (slowed down, recolored, different caption/audio so each is its own upload).
 	const FEED = args['trial-only'] ? 0 : Number(CFG.feedPerClip ?? 2), TRIALS = Number(CFG.trialsPerClip ?? 3);
 	const nUses = args.per ? Number(args.per) : FEED + TRIALS;
-	const best = Object.entries(learned?.stats || {}).filter(([f, s]) => s.score != null && mix[f] != null).sort((a, b) => b[1].score - a[1].score)[0]?.[0] || 'comment_bait';
+	// feed posts use the format of our single best-performing template (format averages get dragged down by old posts)
 
 	// Which formats this clip gets: largest-remainder split of nUses by the mix, comment bait first so each
 	// account opens with the format that drives comments.
@@ -135,6 +135,7 @@ async function main() {
 	const rank = (t) => learned?.templates?.[t.id]?.score ?? t.views * 0.05;
 	const pool = (wanted ? templates.filter((t) => wanted.includes(t.id)) : templates).sort((x, y) => rank(y) - rank(x));
 	const byFmt = (f) => (pool.filter((t) => t.format === f).length ? pool.filter((t) => t.format === f) : pool);
+	const best = pool.find((t) => learned?.templates?.[t.id])?.format || 'comment_bait';
 	for (const job of jobs) {
 		const seq = wanted ? [...Array(nUses)].map((_, i) => pool[i % pool.length].format) : onlyFmts ? formatPlan(nUses) : [...Array(Math.min(FEED, nUses)).fill(best), ...formatPlan(Math.max(0, nUses - FEED))];
 		const seen = {};
