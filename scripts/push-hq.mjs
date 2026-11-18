@@ -52,7 +52,7 @@ for (const job of jobs) {
 		const thumb_url = await upload(jpg, `${job}/${v.id}.jpg`, 'image/jpeg');
 		const fmt = FORMATS.has(v.format) ? v.format : 'other';
 		await rest('pipe_posts', [{clip_id: clipId, variant: v.id, account: v.account, platforms: ['instagram'], hook: v.text.slice(0, 200),
-			music: v.sound?.name || null, video_url, thumb_url, format: fmt, trial: true, // every pipeline video starts as a trial reel
+			music: v.sound?.name || null, video_url, thumb_url, format: fmt, trial: v.trial ?? true, // 2 feed posts + 3 trial reels per clip
 			caption: `${CAPTION[v.format] || CAPTION.comment_bait}\n\n${TAGS}`}], 'clip_id,variant');
 		console.log(`  ${job} ${v.id} -> @${v.account}`);
 	}

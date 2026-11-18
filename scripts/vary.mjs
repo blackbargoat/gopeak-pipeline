@@ -14,8 +14,16 @@ const PRESETS = [
 
 export const DEFAULT_VARY = {mirror: true, crop: true, speed: true, grade: true, audio: true, caption: true};
 
-export function footage(i, opts = DEFAULT_VARY) {
-	const p = PRESETS[i % PRESETS.length];
+// Trial reels: slowed down (88-95%) with a clearly different color look, so a reused clip reads as a new video.
+const TRIAL = [
+	{mirror: true, zoom: 1.05, rate: 0.92, shiftX: -18, grade: {brightness: 1.05, contrast: 1.1, saturate: 1.25}},
+	{mirror: false, zoom: 1.08, rate: 0.88, shiftX: 22, grade: {brightness: 0.94, contrast: 1.12, saturate: 0.8}},
+	{mirror: true, zoom: 1.03, rate: 0.95, shiftX: 10, grade: {brightness: 1.08, contrast: 0.96, saturate: 1.15}},
+	{mirror: false, zoom: 1.06, rate: 0.9, shiftX: -12, grade: {brightness: 0.98, contrast: 1.15, saturate: 1.3}},
+];
+
+export function footage(i, opts = DEFAULT_VARY, trialIndex = null) {
+	const p = trialIndex != null ? TRIAL[trialIndex % TRIAL.length] : PRESETS[i % PRESETS.length];
 	return {
 		mirror: opts.mirror ? p.mirror : false,
 		zoom: opts.crop ? p.zoom : 1,

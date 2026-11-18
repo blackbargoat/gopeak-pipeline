@@ -109,7 +109,11 @@ async function main() {
 	const onlyFmts = args.formats ? String(args.formats).split(',').filter(Boolean) : null;
 	const baseMix = CFG.learn && learned?.mix ? learned.mix : CFG.mix;
 	const mix = onlyFmts ? Object.fromEntries(onlyFmts.map((f) => [f, 1 / onlyFmts.length])) : baseMix;
-	const nUses = Math.min(Number(args.per ?? CFG.usesPerClip), ACCOUNTS.length * CFG.perAccountMax);
+	// Every clip: FEED normal posts (the proven winning format, untouched look) + TRIALS trial reels
+	// (slowed down, recolored, different caption/audio so each is its own upload).
+	const FEED = Number(CFG.feedPerClip ?? 2), TRIALS = Number(CFG.trialsPerClip ?? 3);
+	const nUses = args.per ? Number(args.per) : FEED + TRIALS;
+	const best = Object.entries(learned?.stats || {}).filter(([f, s]) => s.score != null && mix[f] != null).sort((a, b) => b[1].score - a[1].score)[0]?.[0] || 'comment_bait';
 
 	// Which formats this clip gets: largest-remainder split of nUses by the mix, comment bait first so each
 	// account opens with the format that drives comments.
@@ -129,7 +133,7 @@ async function main() {
 	const pool = (wanted ? templates.filter((t) => wanted.includes(t.id)) : templates).sort((x, y) => rank(y) - rank(x));
 	const byFmt = (f) => (pool.filter((t) => t.format === f).length ? pool.filter((t) => t.format === f) : pool);
 	for (const job of jobs) {
-		const seq = wanted ? pool.slice(0, nUses).map((t) => t.format) : formatPlan(nUses);
+		const seq = wanted ? pool.slice(0, nUses).map((t) => t.format) : onlyFmts ? formatPlan(nUses) : [...Array(Math.min(FEED, nUses)).fill(best), ...formatPlan(Math.max(0, nUses - FEED))];
 		const seen = {};
 		const picks = seq.map((f, i) => {
 			const list = byFmt(f);
@@ -144,7 +148,8 @@ async function main() {
 		for (const {t, vi} of picks) {
 			const i = vi;
 			const account = ACCOUNTS[i % ACCOUNTS.length];
-			const id = `${account}-${Math.floor(i / ACCOUNTS.length) + 1}-ref${t.id}`;
+			const trial = i >= FEED;
+			const id = `${account}-${trial ? 't' : 'f'}${Math.floor(i / ACCOUNTS.length) + 1}-ref${t.id}`;
 			const audioPool = [...new Set(byFmt(t.format).map((x) => x.audio))];
 			const texts = t.texts.map((x) => ({...x, text: caption(x.text, i, CFG.vary, t.alts || [])}));
 			const firstText = texts[0]?.text ?? t.table?.title ?? '';
@@ -158,7 +163,7 @@ async function main() {
 				screens: t.screens || [],
 				table: t.table || null,
 				appAspect: t.app ? aspectOf(t.app.image) : 1,
-				...footage(i, CFG.vary),
+				...footage(i, CFG.vary, i >= FEED ? i - FEED : null),
 			};
 			// Land every cut on a beat of the audio this variant actually uses.
 			const aFile = path.join(PUBLIC, inputProps.audio);
@@ -179,7 +184,7 @@ async function main() {
 			const file = path.join(outDir, `${id}.mp4`);
 			log(`render ${id} (ref @${t.ref}, ${(t.views / 1000).toFixed(0)}K views)`);
 			await renderMedia({composition, serveUrl, codec: 'h264', crf: 18, audioBitrate: '192k', outputLocation: file, inputProps});
-			manifest.variants.push({id, account, template: t.id, format: t.format, ref: t.ref, sound: t.sound || null, text: firstText, audio: inputProps.audio, mirror: inputProps.mirror, file: path.relative(ROOT, file)});
+			manifest.variants.push({id, account, template: t.id, format: t.format, ref: t.ref, sound: t.sound || null, text: firstText, audio: inputProps.audio, mirror: inputProps.mirror, trial, rate: inputProps.rate, file: path.relative(ROOT, file)});
 		}
 		fs.writeFileSync(path.join(outDir, 'manifest.json'), JSON.stringify(manifest, null, 2));
 		log(`done → ${outDir}`);
