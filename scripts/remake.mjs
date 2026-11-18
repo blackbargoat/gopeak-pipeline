@@ -176,7 +176,8 @@ async function main() {
 				face: path.relative(PUBLIC, job.face).split(path.sep).join('/'),
 				faceLoopSec: job.loopSec,
 				durationSec: t.durationSec,
-				audio: audio(t, i, audioPool, CFG.vary),
+				// audio rotates per clip and per use, so the same legend never ships with the same song every time
+				audio: audioPool.length > 1 ? audioPool[(clipSpin + i) % audioPool.length] : audio(t, i, audioPool, CFG.vary),
 				texts,
 				app: t.app,
 				screens: t.screens || [],

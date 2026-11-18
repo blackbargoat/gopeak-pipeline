@@ -51,8 +51,15 @@ for (const job of jobs) {
 		const video_url = await upload(mp4, `${job}/${v.id}.mp4`, 'video/mp4');
 		const thumb_url = await upload(jpg, `${job}/${v.id}.jpg`, 'image/jpeg');
 		const fmt = FORMATS.has(v.format) ? v.format : 'other';
+		// A feed post never repeats a template already on that account's feed in the last 3 weeks: it becomes a trial reel
+		let trial = v.trial ?? true;
+		if (!trial && v.template) {
+			const since = new Date(Date.now() - 21 * 864e5).toISOString();
+			const r = await fetch(`${URL_}/rest/v1/pipe_posts?select=id&account=eq.${v.account}&trial=eq.false&status=in.(rendered,scheduled,posting,posted)&created_at=gt.${since}&variant=like.*-ref${v.template}*`, {headers: H});
+			if (r.ok && (await r.json()).length) trial = true;
+		}
 		await rest('pipe_posts', [{clip_id: clipId, variant: v.id, account: v.account, platforms: ['instagram'], hook: v.text.slice(0, 200),
-			music: v.sound?.name || null, video_url, thumb_url, format: fmt, trial: v.trial ?? true, // 2 feed posts + 3 trial reels per clip
+			music: v.sound?.name || null, video_url, thumb_url, format: fmt, trial, // 2 feed posts + 3 trial reels per clip (feed repeats become trials)
 			caption: `${CAPTION[v.format] || CAPTION.comment_bait}\n\n${TAGS}`}], 'clip_id,variant');
 		console.log(`  ${job} ${v.id} -> @${v.account}`);
 	}
