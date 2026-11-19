@@ -74,7 +74,12 @@ for (const f of Object.keys(cfg.mix)) {
 	let v = 0.5 * cfg.mix[f] + 0.5 * share;
 	const b0 = base[f] ?? cfg.mix[f];
 	v = Math.max(b0 - 0.2, Math.min(b0 + 0.2, v));
-	mix[f] = Math.max(0.08, v);
+	mix[f] = cfg.mix[f] === 0 ? 0 : Math.max(0.08, v);   // a format switched off in HQ stays off (owner 2026-11-19)
+}
+// owner rule 2026-11-19: the Flex format (comment_bait) is the proven winner -> never below 60% of the mix
+if (cfg.mix.comment_bait) {
+	const rest = Object.entries(mix).filter(([k]) => k !== 'comment_bait').reduce((t, [, v]) => t + v, 0);
+	mix.comment_bait = Math.max(mix.comment_bait, 1.5 * rest);   // cb / (cb + rest) >= 60%
 }
 const sum = Object.values(mix).reduce((a, b) => a + b, 0);
 mix = Object.fromEntries(Object.entries(mix).map(([k, v]) => [k, +(v / sum).toFixed(3)]));

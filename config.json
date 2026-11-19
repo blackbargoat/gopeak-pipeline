@@ -3,10 +3,10 @@
   "usesPerClip": 5,
   "perAccountMax": 3,
   "mix": {
-    "comment_bait": 0.5,
+    "comment_bait": 0.7,
     "bait_peek": 0.3,
-    "app_reveal": 0.1,
-    "text_remake": 0.1
+    "app_reveal": 0,
+    "text_remake": 0
   },
   "learn": true,
   "vary": {
