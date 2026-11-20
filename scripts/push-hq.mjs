@@ -14,10 +14,13 @@ const KEY = process.env.SUPABASE_SERVICE_KEY;
 if (!KEY) { console.error('set SUPABASE_SERVICE_KEY'); process.exit(1); }
 const H = {apikey: KEY, Authorization: `Bearer ${KEY}`};
 const FORMATS = new Set(['comment_bait', 'bait_peek', 'app_reveal', 'text_remake', 'talking', 'other']);
-const TAGS = '#height #growthspurt #howtallwillibe #heightprediction #tall';
+// Captions + tags = our most viewed posts (stats/posts.json, 2026-11-20): Flex legend reels with
+// "Flex your height with the GoPeak App" (155K median), comment bait with the 307K caption, tags from 3 of the top 4.
+const TAGS = '#6ft #height #tall #fyp #reels';
+const FLEX_CAPTION = 'Flex your height with the GoPeak App';
 const CAPTION = {
-	comment_bait: 'comment your age and height, i\'ll tell you how tall you\'ll get',
-	bait_peek: 'comment your age and height for your prediction',
+	comment_bait: 'comment your age and height 👇 i\'ll tell you how tall you\'ll get',
+	bait_peek: 'comment your age and height 👇 i\'ll tell you how tall you\'ll get',
 	app_reveal: 'your full height prediction is on gopeak, app in bio',
 	screen_payoff: 'your full height prediction is on gopeak, app in bio',
 	text_remake: 'send this to your short friend 😭 comment your age and height',
@@ -61,7 +64,7 @@ for (const job of jobs) {
 		}
 		await rest('pipe_posts', [{clip_id: clipId, variant: v.id, account: v.account, platforms: ['instagram'], hook: v.text.slice(0, 200),
 			music: v.sound?.name || null, video_url, thumb_url, format: fmt, trial, // 2 feed posts + 3 trial reels per clip (feed repeats become trials)
-			caption: `${CAPTION[v.format] || CAPTION.comment_bait}\n\n${TAGS}`}], 'clip_id,variant');
+			caption: `${/-reff/.test(v.id ?? v.variant ?? '') ? FLEX_CAPTION : CAPTION[v.format] || CAPTION.comment_bait}\n\n${TAGS}`}], 'clip_id,variant');
 		console.log(`  ${job} ${v.id} -> @${v.account}`);
 	}
 }
