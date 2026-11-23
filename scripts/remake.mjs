@@ -133,7 +133,8 @@ async function main() {
 	// Rank templates by our own results when we have them; untested ones use the reference's views scaled down
 	// (a GoTall outlier's views aren't comparable to ours), so proven templates come first.
 	const rank = (t) => learned?.templates?.[t.id]?.score ?? t.views * 0.05;
-	const pool = (wanted ? templates.filter((t) => wanted.includes(t.id)) : templates).sort((x, y) => rank(y) - rank(x));
+	const retired = new Set(learned?.retired || []);
+	const pool = (wanted ? templates.filter((t) => wanted.includes(t.id)) : templates.filter((t) => !retired.has(t.id))).sort((x, y) => rank(y) - rank(x));
 	const byFmt = (f) => (pool.filter((t) => t.format === f).length ? pool.filter((t) => t.format === f) : pool);
 	const best = pool.find((t) => learned?.templates?.[t.id])?.format || 'comment_bait';
 	for (const job of jobs) {
@@ -160,12 +161,19 @@ async function main() {
 			// feed posts always take the best templates; trial reels rotate per clip so clips don't repeat each other
 			const spin = i < FEED ? 0 : clipSpin;
 			let t = wanted ? pool[i % pool.length] : list[(job.k * 2 + spin + seen[f]) % list.length];
+			// skip templates that keep flopping on the account this variant goes to (learned.deadOn)
+			const acct = ACCOUNTS[i % ACCOUNTS.length];
+			const dead = (x) => (learned?.deadOn?.[x.id] || []).includes(acct);
+			for (let k = 1; !wanted && dead(t) && k <= pool.length; k++) {
+				const alt = [...list, ...pool][(job.k * 2 + spin + seen[f] + k) % (list.length + pool.length)];
+				if (alt && !dead(alt)) t = alt;
+			}
 			// never two videos of one clip with the same on-screen text (the database refuses duplicate captions per clip):
 			// e.g. a bait + peek legend shares its text with the comment-bait legend. Try the next template instead.
 			const first = (x) => (x.texts?.[0]?.text ?? x.table?.title ?? '').toLowerCase().replace(/[^a-z0-9]/g, '');
 			for (let k = 1; !wanted && usedText.has(first(t)) && k <= pool.length; k++) {
 				const alt = [...list, ...pool][(job.k * 2 + spin + seen[f] + k) % (list.length + pool.length)];
-				if (alt) t = alt;
+				if (alt && !dead(alt)) t = alt;
 			}
 			usedText.add(first(t));
 			const reuse = Math.floor(seen[f] / list.length); // >0 only when a format has fewer templates than uses

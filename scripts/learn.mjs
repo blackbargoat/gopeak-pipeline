@@ -40,14 +40,17 @@ if (KEY) {
 }
 
 const posts = Object.values(await (await fetch(STATS)).json());
-const groups = {}, templates = {}, audios = {};
+const groups = {}, templates = {}, audios = {}, perAcct = {};
 for (const p of posts) {
 	const hit = exact.get(norm(p.permalink));
 	const f = hit?.format ?? byCaption(p.caption);
 	const w = hit ? 1 : 0.5;
 	const row = {views: p.views || 0, comments: p.comments || 0, w};
 	(groups[f] ??= []).push(row);
-	if (hit?.template) (templates[hit.template] ??= []).push(row);
+	if (hit?.template) {
+		(templates[hit.template] ??= []).push(row);
+		((perAcct[hit.template] ??= {})[p.account] ??= []).push(row);
+	}
 	if (hit?.music) (audios[hit.music] ??= []).push(row);
 }
 const median = (a) => {
@@ -87,6 +90,13 @@ const out = {
 	mix,
 	stats,
 	templates: Object.fromEntries(Object.entries(templates).map(([k, v]) => [k, summarize(v)])),
+	// owner 2026-11-22: switch off what does badly.
+	// deadOn: a template whose every post on one account stayed under 1,000 views (2+ posts) is never made for that
+	// account again (e.g. f1 on mav.tallteen: 182/271/158/162). retired: 4+ posts, median under 1,500 and best under
+	// 20k, so it never broke out anywhere -> not made at all.
+	deadOn: Object.fromEntries(Object.entries(perAcct).map(([t, by]) => [t, Object.entries(by).filter(([, g]) => g.length >= 2 && Math.max(...g.map((x) => x.views)) < 1000).map(([a]) => a)]).filter(([, a]) => a.length)),
+	retired: Object.entries(templates).filter(([, g]) => { const s = summarize(g); return s.posts >= 4 && s.medianViews < 1500 && s.bestViews < 20000; }).map(([t]) => t),
+	byAccount: Object.fromEntries(Object.entries(perAcct).map(([t, by]) => [t, Object.fromEntries(Object.entries(by).map(([a, g]) => [a, summarize(g)]))])),
 	audios: Object.fromEntries(Object.entries(audios).map(([k, v]) => [k, summarize(v)])),
 	basis: `${posts.length} videos (${[...exact.keys()].filter((u) => posts.some((p) => norm(p.permalink) === u)).length} pipeline posts matched exactly, rest by caption)`,
 	updatedAt: new Date().toISOString(),
